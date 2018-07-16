@@ -32,7 +32,6 @@ RUN make && make install
 
 # Add all the code
 WORKDIR /code
-ADD src .
 
 # Build saliency
 ENV SALIENCYROOT=/code/saliency
@@ -42,9 +41,7 @@ ENV CFLAGS='-L/usr/lib -I/usr/include'
 ENV CXXFLAGS='-L/usr/lib -I/usr/include'
 ENV CPPFLAGS='-L/usr/lib -I/usr/include'
 ENV LDFLAGS='-L/usr/lib'
-RUN ./configure 
-RUN make depoptions-all
-RUN make bin/ezvision bin/test-JunctionHOG bin/test-KalmanFilter
+RUN ./configure && make depoptions-all && bin/ezvision bin/test-JunctionHOG bin/test-KalmanFilter
 
 # Check out and build xercesc
 ENV X_VERSION 2_8_0
@@ -53,18 +50,17 @@ RUN wget http://archive.apache.org/dist/xerces/c/2/sources/xerces-c-src_${X_VERS
 RUN tar -zxf xerces-c-src_${X_VERSION}.tar.gz
 ENV XERCESCROOT=/code/xerces-c-src_${X_VERSION}
 WORKDIR /code/xerces-c-src_${X_VERSION}/src/xercesc
-RUN ./runConfigure -p linux -b 64
-RUN make && make install
+RUN ./runConfigure -p linux -b 64 && make && make install
 
 # Finally, build mbarivision
 WORKDIR /code
+ADD src .
 RUN autoconf configure.ac > configure
 RUN chmod 0755 configure 
 ENV CPPFLAGS '-I/usr/include/libxml2'
 ENV LDFLAGS '-lxml2'
 RUN ./configure --with-saliency=/code/saliency --with-xercesc=/usr/local/include/xercesc --prefix=/usr/local
-RUN make readAnnotations
-RUN make installReadAnnotations
+RUN make readAnnotations installReadAnnotations
 
 # Setup X display
 RUN sed -i 's/DisplayManager.requestPort/!DisplayManager.requestPort/g' /etc/X11/xdm/xdm-config
