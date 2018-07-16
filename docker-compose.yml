@@ -25,3 +25,8 @@ services:
     image: mbari/avedac-mbarivision-xdisplay
     depends_on:
       - base 
+  readAnnotations:
+    build:
+      context: .
+      dockerfile: Dockerfile.readAnnotations
+    image: mbari/avedac-mbarivision-readAnnotations
