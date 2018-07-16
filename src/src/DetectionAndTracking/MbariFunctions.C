@@ -852,6 +852,57 @@ Image< PixRGB<byte > > showAllWinners(const list<Winner> winlist, const Image< P
     return result;
 }
 
+//// ######################################################################
+//
+//Image< PixRGB<byte > > showAllWinners(const list<Rectangle> reclist, const Image< PixRGB<byte > > & img, int maxDist) {
+//    Image< PixRGB<byte > > result = img;
+//    list<Winner>::const_iterator currWinner;
+//    const PixRGB<byte> color = COL_CANDIDATE;
+//    int i=0;
+//
+//    for (currWinner = winlist.begin(); currWinner != winlist.end(); ++currWinner) {
+//        Point2D<int> ctr = (*currWinner).getWTAwinner().p;
+//        BitObject bo = (*currWinner).getBitObject();
+//        Point2D<int> offset = Point2D<int>(2, 2);
+//        //drawCircle(result, ctr, maxDist, red);
+//         // write the number of each winner
+//        //string numText = toStr(i);
+//
+//        // write the text and create the overlay image
+//        ostringstream ss;
+//        ss.precision(3);
+//        ss << toStr(i) << "," << 1000.F*bo.getSMV() << "mV";
+//
+//        string textboxstring =  ss.str();
+//
+//        // create a text box scaled from 720x480
+//        Image< PixRGB<byte> > textImg;
+//        const Dims d = img.getDims();
+//        const int numW = (8 * d.w()) / 720;
+//        const int numH = (25 * d.h()) / 480;
+//        const int fntH = (20 * d.h()) / 480;
+//
+//        // create the timecode text adding padding extra 10 pixels to ensure fits
+//        textImg.resize(numW * textboxstring.length() + 10, numH, NO_INIT);
+//        textImg.clear(COL_WHITE);
+//
+//        // set the maximum font height. This may not necessarily
+//        // be the maximum height, but will match the largest
+//        // that is closest to fntH
+//        const SimpleFont f = SimpleFont::fixedMaxHeight(fntH);
+//
+//        writeText(textImg, Point2D<int>(0, 0), textboxstring.c_str(), COL_BLACK,
+//                COL_WHITE, f, true);
+//
+//        pasteImage(result, textImg, COL_TRANSPARENT, ctr+offset, 0.25F);
+//        bo.drawOutline(result, color);
+//        i++;
+//    }
+//    return result;
+//}
+
+// ######################################################################
+
 // ######################################################################
 
 Image<byte> showAllObjects(const list<BitObject>& objs) {

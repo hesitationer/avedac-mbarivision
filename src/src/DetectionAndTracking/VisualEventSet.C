@@ -927,6 +927,11 @@ void VisualEventSet::initiateEvents(list<BitObject>& bos,
     }
 }
 
+//
+//!constructor with the location being the centroid of the BitObject,
+////the name is the class name, and probability is associated probability
+//Token (BitObject bo, uint frame, std::string name, float probability);
+
 // ######################################################################
 bool VisualEventSet::resetIntersect(Image< PixRGB<byte> >& img, BitObject& obj, const Vector2D& curFOE, int frameNum)
 {
@@ -1170,7 +1175,8 @@ void VisualEventSet::drawTokens(Image< PixRGB<byte> >& img,
           Image< PixRGB<byte> > textImg;
           if (showEventLabels)
             {
-              // write the text and create the overlay image
+              // write the text and create the overlay
+
               string numText = toStr((*currEvent)->getEventNum());
               ostringstream ss;
               ss.precision(2);

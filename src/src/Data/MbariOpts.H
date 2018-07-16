@@ -46,6 +46,9 @@ extern const ModelOptionDef OPT_MBenthicVideo;
 extern const ModelOptionDef OPT_MMidwaterVideo;
 extern const ModelOptionDef OPT_MToolSledVideo;
 
+//Extra option
+extern const  ModelOptionDef OPT_LOGhavexml;
+
 //! Command-line options for Logger
 //@{
 extern const ModelOptionDef OPT_LOGsaveEvents;

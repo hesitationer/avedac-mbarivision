@@ -43,7 +43,6 @@ ENV CXXFLAGS='-L/usr/lib -I/usr/include'
 ENV CPPFLAGS='-L/usr/lib -I/usr/include'
 ENV LDFLAGS='-L/usr/lib'
 RUN ./configure 
-RUN make clean
 RUN make depoptions-all
 RUN make bin/ezvision 
 RUN make bin/test-JunctionHOG 
@@ -68,8 +67,8 @@ RUN chmod 0755 configure
 ENV CPPFLAGS '-I/usr/include/libxml2'
 ENV LDFLAGS '-lxml2'
 RUN ./configure --with-saliency=/code/saliency --with-xercesc=/usr/local/include/xercesc --prefix=/usr/local
-RUN make
-RUN make install
+RUN make readAnnotations
+RUN make installReadAnnotations
   
 # Clean up and add startup script
 WORKDIR /code

@@ -106,6 +106,11 @@ public:
   //! initiate new events for all BitObjects in bos if they aren't tracked yet
   void initiateEvents(std::list<BitObject>& bos, FeatureCollection& features, ImageData& imgData);
 
+  // new function
+//  //! initiate new events for all BitObjects in bos if they aren't tracked yet
+//   void initiateEvents(std::list<BitObject>& bos,  ImageData& imgData);
+
+
   //! if obj intersects with any of the event at frameNum, reset SMV and Hough bounds
   bool resetIntersect(Image< PixRGB<byte> >& img, BitObject& obj, const Vector2D& curFOE, int frameNum);
 

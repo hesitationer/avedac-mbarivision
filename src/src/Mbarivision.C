@@ -383,7 +383,7 @@ int main(const int argc, const char** argv) {
 
             rv->display(brainInput, frameNum, "BrainInput");
 
-            // post new input frame for processing
+            // post new input frame for processing >GO AWAY<
             rutz::shared_ptr<SimEventInputFrame> e(new SimEventInputFrame(brain.get(), GenericFrame(brainInput), 0));
             seq->resetTime(seq->now());
             seq->post(e);
@@ -459,6 +459,8 @@ int main(const int argc, const char** argv) {
 
         // search for new winners until reached max time, max spots or boring WTA point
         LINFO("Searching for new winners...");
+
+        // Put Code Here
         while (status == SIM_CONTINUE) {
 
             // evolve the brain and other simulation modules

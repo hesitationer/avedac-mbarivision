@@ -45,6 +45,8 @@
 //   "long option name", 'short option name', "valid values", "default value" }
 //
 
+
+
 // alternatively, for MODOPT_ALIAS option types, format is:
 //
 // { MODOPT_ALIAS, "", &MOC_ALIAS, OPTEXP_CORE,
@@ -167,6 +169,7 @@ const ModelOptionDef OPT_MTimeLapseStills =
 
 // #################### Logger options:
 
+
 const ModelOptionDef OPT_LOGsaveOutput =
   { MODOPT_FLAG, "LOGsaveOutput", &MOC_MBARI, OPTEXP_MRV,
     "Save output frames in MBARI programs",
@@ -176,6 +179,13 @@ const ModelOptionDef OPT_LOGdisplayOutput =
   { MODOPT_FLAG, "LOGdisplayOutput", &MOC_MBARI, OPTEXP_MRV,
     "Display output frames in MBARI programs",
     "mbari-display-output", '\0', "", "false" };
+
+// New option: --have_xml
+// Remember we're going to pass a string
+const ModelOptionDef OPT_LOGinputFrames =
+  { MODOPT_FLAG, "LOGhavexml", &MOC_MBARI, OPTEXP_MRV,
+    "Takes a xml(change this)",
+    "--have_xml", '\0', "false", ""};
 
 // Used by: Logger
 const ModelOptionDef OPT_LOGsaveEvents =

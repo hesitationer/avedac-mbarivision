@@ -1349,24 +1349,26 @@ MBARI Related Options:
       --ori-interaction=SubtractMean --num-orient=16 --gabor-intens=20.0 
       --rescale-input=1920x1277 --ior-type=ShapeEst --maxnorm-type=FancyOne 
 
+############################################################
   --mbari-benthic-video
       Implements good choice of options to experiment with processing video 
       from a moving camera traversing the sea bottom. EQUIVALENT TO: 
       --levelspec=1-3,2-4,2 --num-orient=4 --mbari-save-original-frame-spec 
       mbari-segment-adaptive-parameters= 
-      --mbari-tracking-mode=NearestNeighborHough 
+      ** --mbari-tracking-mode=NearestNeighborHough **
       --mbari-saliency-input-image=Raw 
       --mbari-segment-algorithm-input-image=Luminance 
-      --mbari-min-event-frames=3 --vc-chans=COKMF --mbari-color-space=RGB 
+      **--mbari-min-event-frames=3 ** --vc-chans=COKMF --mbari-color-space=RGB 
       --use-random=true  --mbari-se-size=4 --rescale-input=640x480 
       --ori-interaction=SubtractMean --oricomp-type=Steerable 
       --shape-estim-smoothmethod=None --mbari-saliency-dist=5 
-      --mbari-cache-size=120 --use-older-version=false 
-      --mbari-segment-algorithm=Best --mbari-rescale-display=320x240 
+      ** --mbari-cache-size=120 ** --use-older-version=false 
+      --mbari-segment-algorithm=Best ** --mbari-rescale-display=320x240 **
       --shape-estim-mode=ConspicuityMap --ior-type=ShapeEst 
       --maxnorm-type=FancyOne --mbari-min-event-frames=1 
-      --mbari-segment-graph-parameters=0.75,500,250 
+      ** --mbari-segment-graph-parameters=0.75,500,250 ** 
       --mbari-segment-adaptive-parameters=2,2 --mbari-dynamic-mask=true 
+############################################################
 
   --mbari-eits-video
       Options used for processing Eye-in-the-Sea Video from the  Ocean Research 

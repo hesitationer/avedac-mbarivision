@@ -27,6 +27,7 @@ vpath % $(VLIBS)
 all: $(CDEPS) $(BINDIR)mbarivision
 classifier: $(CDEPS) $(BINDIR)trainbayes $(BINDIR)trainbayesLDA $(BINDIR)test-FisherLDA
 
+
 # for the compilation of the Version file every time to date/time stamp the build
 $(OBJDIR)Utils/Version.o: force $(SRCDIR)Utils/Version.C
 force: ;
