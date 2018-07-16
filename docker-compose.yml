@@ -1,5 +1,10 @@
 version: '3.1'
 services:
+  readannotations:
+    build:
+      context: .
+      dockerfile: Dockerfile.readannotations
+    image: mbari/avedac-mbarivision-readannotations
   base:
     build:
       context: .
@@ -25,8 +30,3 @@ services:
     image: mbari/avedac-mbarivision-xdisplay
     depends_on:
       - base 
-  readAnnotations:
-    build:
-      context: .
-      dockerfile: Dockerfile.readAnnotations
-    image: mbari/avedac-mbarivision-readAnnotations
