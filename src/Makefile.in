@@ -20,13 +20,13 @@ COMPILE3    :=
 CDEPS	    := $(BINDIR)cdeps
 VLIBS       := /usr/lib
 
-# grab virtual paths from saliency build to make knows where to look for libraries
+e grab virtual paths from saliency build to make knows where to look for libraries
 VLIBS +=`grep -m 1 VPATH_LIBDIRS $(SALIENCYROOT)/Makefile | cut -f2 -d =`
 vpath % $(VLIBS)
 
 all: $(CDEPS) $(BINDIR)mbarivision
 classifier: $(CDEPS) $(BINDIR)trainbayes $(BINDIR)trainbayesLDA $(BINDIR)test-FisherLDA
-
+readAnnotations: $(CDEPS) $(BINDIR)readAnnotations
 
 # for the compilation of the Version file every time to date/time stamp the build
 $(OBJDIR)Utils/Version.o: force $(SRCDIR)Utils/Version.C
@@ -82,6 +82,7 @@ $(DEPFILE):$(CDEPS)
            --srcdir "$(SRCDIR)" \
            --includedir "$(SRCDIR)" \
            --exeformat "$(SRCDIR)Mbarivision.C : $(BINDIR)mbarivision" \
+           --exeformat "$(SRCDIR)readAnnotations.C : $(BINDIR)readAnnotations" \
            --includedir "$(SALIENCYROOT)/src" \
            --includedir "$(XERCESCROOT)/src" \
            --options-file depoptions-all \
@@ -121,6 +122,14 @@ depclean:
 	@-rm -f $(DEPFILE) 
 
 allclean: clean depclean
+
+installReadAnnotations: 
+        $(COMPILE1) "Installing readAnnotations in $(BINDIR) to $(PREFIX)/bin "
+        @mkdir -p $(PREFIX)/bin/$(SCHEMADIR)
+        @cp -f $(BINDIR)readAnnotations $(PREFIX)/bin
+        $(COMPILE1) "Installing mbarivision xml schema files in $(SCHEMADIR) to $(PREFIX)/bin "
+        @cp -Rf $(SCHEMADIR) $(PREFIX)/bin
+        $(COMPILE1) "Done !"
 
 install: 
 	$(COMPILE1) "Installing mbarivision in $(BINDIR) to $(PREFIX)/bin "
