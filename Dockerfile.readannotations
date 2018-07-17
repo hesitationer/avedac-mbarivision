@@ -30,18 +30,16 @@ WORKDIR /code/opencv-${CV_VERSION}/build
 RUN cmake -D CMAKE_INSTALL_PREFIX=/usr -D CMAKE_BUILD_TYPE=RELEASE -D WITH_TBB=ON -D WITH_V4L=OFF -D INSTALL_C_EXAMPLES=OFF -D INSTALL_PYTHON_EXAMPLES=OFF -D BUILD_EXAMPLES=OFF -D WITH_OPENGL=ON ..
 RUN make && make install
 
-# Add all the code
-WORKDIR /code
-
 # Build saliency
 ENV SALIENCYROOT=/code/saliency
 WORKDIR /code/saliency
+ADD src/saliency .
 RUN autoconf configure.ac > configure 
 ENV CFLAGS='-L/usr/lib -I/usr/include'
 ENV CXXFLAGS='-L/usr/lib -I/usr/include'
 ENV CPPFLAGS='-L/usr/lib -I/usr/include'
 ENV LDFLAGS='-L/usr/lib'
-RUN ./configure && make depoptions-all && bin/ezvision bin/test-JunctionHOG bin/test-KalmanFilter
+RUN ./configure && make depoptions-all && make bin/ezvision bin/test-JunctionHOG bin/test-KalmanFilter
 
 # Check out and build xercesc
 ENV X_VERSION 2_8_0
