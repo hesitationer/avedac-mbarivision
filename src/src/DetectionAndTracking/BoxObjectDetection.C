@@ -17,7 +17,7 @@
 class ModelParamBase;
 class DetectionParameters;
 
-#include "BoxObjectDetection.h"
+#include "BoxObjectDetection.H"
 
 
 
