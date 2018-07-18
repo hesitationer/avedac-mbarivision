@@ -507,7 +507,7 @@ void getObjectValues(XercesDOMParser *itsParser, list<Rectangle>& creatureDims, 
 						}
 					}
 
-					creatureDims.push_back(Rectangle::tlbrI(temp.xmin, temp.ymin, temp.xmax, temp.ymax));	// Store creature found b/c dim are the last values to collect
+					creatureDims.push_back(Rectangle::tlbrI(temp.ymin, temp.xmin, temp.ymax, temp.xmax));	// Store creature found b/c dim are the last values to collect
 
 					break;
 				} else if(tagNameObj == "confidence") {
