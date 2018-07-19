@@ -65,15 +65,6 @@ std::list<BitObject> BoxObjectDetection::run(
         // add to the list
         bosUnfiltered.splice(bosUnfiltered.begin(), sobjsKeep);
 
-        //if list is empty and this is a high probability class, take the rectangle or box
-        if(rec.empty()){
-			Image<byte> foamask;
-			BitObject bo;
-			bo.reset(makeBinary(foamask,byte(1),byte(1),byte(1)));
-
-			++iter;
-        }
-
 		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
 
 		int minSize = 0;
@@ -90,6 +81,10 @@ std::list<BitObject> BoxObjectDetection::run(
 		if (largest->isValid()) {
 			//largest->setClassProbability(className, classProbability);
 			bosFiltered.push_back(*largest);
+		} else {
+			Image<byte> foamask;
+			BitObject bo;
+			bo.reset(makeBinary(foamask,byte(1),byte(1),byte(1)));
 		}
 
 		++iter;
