@@ -79,20 +79,17 @@ std::list<BitObject> BoxObjectDetection::run(
 		int minSize = 0;
 		LINFO("Finding largest object");
 		// loop until we find the largest bit object
-		while (!bosUnfiltered.empty()) {
-
-			std::list<BitObject>::iterator biter, siter, largest;
-			// find the largest object
-			largest = bosUnfiltered.begin();
-			for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
-				if (siter->getArea() > minSize) {
-					minSize = siter->getArea();
-					largest = siter;
-				}
-			if (largest->isValid()) {
-				//largest->setClassProbability(className, classProbability);
-				bosFiltered.push_back(*largest);
+		std::list<BitObject>::iterator biter, siter, largest;
+		// find the largest object
+		largest = bosUnfiltered.begin();
+		for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
+			if (siter->getArea() > minSize) {
+				minSize = siter->getArea();
+				largest = siter;
 			}
+		if (largest->isValid()) {
+			//largest->setClassProbability(className, classProbability);
+			bosFiltered.push_back(*largest);
 		}
 
     }
