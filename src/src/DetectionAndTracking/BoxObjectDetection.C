@@ -71,7 +71,7 @@ std::list<BitObject> BoxObjectDetection::run(
 			BitObject bo;
 			bo.reset(makeBinary(foamask,byte(1),byte(1),byte(1)));
 
-			iter++;
+			++iter;
         }
 
 		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
@@ -92,6 +92,7 @@ std::list<BitObject> BoxObjectDetection::run(
 			bosFiltered.push_back(*largest);
 		}
 
+		++iter;
     }
     LINFO("Found total %lu objects", bosFiltered.size());
     return bosFiltered;
