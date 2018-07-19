@@ -29,12 +29,18 @@
 #ifndef BITOBJECT_H_DEFINED
 #define BITOBJECT_H_DEFINED
 
+#include <string>
+
 #include "Image/Image.H"
 #include "Image/Rectangle.H"
 #include "Util/Types.H"
 
 #include "Image/BitObjectDrawModes.H"
 #include "Image/Geometry2D.H"
+
+
+#define DEFAULT_CLASS_NAME "Unknown"
+#define DEFAULT_CLASS_PROBABILITY 1.0f
 
 
 //! Object defined by a connected binary pixel region
@@ -67,6 +73,12 @@ public:
   /*BitObjects   */
   bool operator < ( const BitObject object ) {
       return true;
+  };
+
+  //! set class name and probability
+  void inline setClassProbability(const std::string className, const float classProbability) {
+	  itsClassName = className;
+	  itsClassProbability = classProbability;
   };
 
   //! Construct from a byte Image
@@ -238,6 +250,8 @@ private:
   float itsMaxIntensity, itsMinIntensity, itsAvgIntensity;
   bool haveSecondMoments;
   double itsSMV;
+  std::string itsClassName;
+  float itsClassProbability;
 };
 
 #endif

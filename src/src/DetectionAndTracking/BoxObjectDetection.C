@@ -39,6 +39,7 @@ void BoxObjectDetection::paramChanged(ModelParamBase* const param,
                                  ParamClient::ChangeStatus* status){
 
 }
+// ======> TODO: Pass in list of custom class/struct that encapsulates rect, class name/probability here
 std::list<BitObject> BoxObjectDetection::run(
     nub::soft_ref<MbariResultViewer> rv,
     const std::list<Rectangle> &rec,
@@ -56,18 +57,7 @@ std::list<BitObject> BoxObjectDetection::run(
 
 		//list of boxes
 		//replace with our box
-		Rectangle region = (*iter); /*= iter.getBoundingBox();*/
-
-		// Classifier helpful, soo don't use this for now
-		// if a very interesting object, override the min event area
-		// may be important in class probability
-//            if (winner.sv > .004F) //Change this for rec
-//                minArea = 1;
-
-		// get the region used for searching for a match based on the foa region
-//		LINFO("Extracting bit objects from frame %d winning point %d %d/region %s minSize %d maxSize %d segment dims %dx%d", \
-//			   (*iter).getFrameNum(), rec.p.i, rec.p.j, minArea,
-//				maxArea);
+		Rectangle region = (*iter);
 
 		//check if this list is empty
 		Point2D<int> unusedSeed;
@@ -75,60 +65,39 @@ std::list<BitObject> BoxObjectDetection::run(
         // add to the list
         bosUnfiltered.splice(bosUnfiltered.begin(), sobjsKeep);
 
-        //if list its empty we gonna take the rectangle or box
+        //if list is empty and this is a high probability class, take the rectangle or box
         if(rec.empty()){
 			Image<byte> foamask;
 			BitObject bo;
 			bo.reset(makeBinary(foamask,byte(1),byte(1),byte(1)));
 
 			iter++;
-        }// end while iter != winners.end()
-
-    LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
-
-    bool found = false;
-    int minSize = p.itsMinEventArea;
-    if (p.itsRemoveOverlappingDetections) {
-        LINFO("Removing overlapping detections");
-        // loop until we find all non-overlapping objects starting with the smallest
-        while (!bosUnfiltered.empty()) {
-
-            std::list<BitObject>::iterator biter, siter, smallest;
-            // find the smallest object
-            smallest = bosUnfiltered.begin();
-            for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
-                if (siter->getArea() < minSize) {
-                    minSize = siter->getArea();
-                    smallest = siter;
-                }
-
-            // does the smallest object intersect with any of the already stored ones
-            found = true;
-            for (biter = bosFiltered.begin(); biter != bosFiltered.end(); ++biter) {
-                if (smallest->isValid() && biter->isValid() && biter->doesIntersect(*smallest)) {
-                    // no need to store intersecting objects -> get rid of smallest
-                    // and look for the next smallest
-                    bosUnfiltered.erase(smallest);
-                    found = false;
-                    break;
-                }
-            }
-
-            if (found && smallest->isValid())
-                bosFiltered.push_back(*smallest);
         }
-    }
-    else {
-        std::list<BitObject>::iterator biter;
-        for (biter = bosUnfiltered.begin(); biter != bosUnfiltered.end(); ++biter) {
-            if (biter->isValid())
-                bosFiltered.push_back(*biter);
-        }
-    }
 
+		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
+
+		int minSize = 0;
+		LINFO("Finding largest object");
+		// loop until we find the largest bit object
+		while (!bosUnfiltered.empty()) {
+
+			std::list<BitObject>::iterator biter, siter, largest;
+			// find the largest object
+			largest = bosUnfiltered.begin();
+			for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
+				if (siter->getArea() > minSize) {
+					minSize = siter->getArea();
+					largest = siter;
+				}
+			if (largest->isValid()) {
+				//largest->setClassProbability(className, classProbability);
+				bosFiltered.push_back(*largest);
+			}
+		}
+
+    }
     LINFO("Found total %lu objects", bosFiltered.size());
     return bosFiltered;
-    }
 }
 
 // ######################################################################
