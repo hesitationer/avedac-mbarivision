@@ -344,6 +344,8 @@ int main(const int argc, const char** argv) {
 		rv->display(t, frameNum, "Segment1.0");
 		t = segmentation.runGraph(segmentIn, r, 0.5);
 		rv->display(t, frameNum, "Segment.5");
+		t = segmentation.runGraph(segmentIn, r, 0.25);
+		rv->display(t, frameNum, "Segment.25");
 		#endif
 
 		// View creatures found in .xml
