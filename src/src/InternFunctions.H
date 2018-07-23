@@ -1,4 +1,12 @@
 namespace InternFunctions {
+
+	struct BoundingBox {
+		int xmin;
+		int ymin;
+		int xmax;
+		int ymax;
+	};
+
 	// Main Functions
 	// 	- Stores value in temporary 'Creature' Object
 	void storeValue(BoundingBox& temp, const string& tagName, const string& tagValue) {    // Stores value in temporary 'Creature' Object
