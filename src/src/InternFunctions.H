@@ -1,4 +1,83 @@
 namespace InternFunctions {
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <signal.h>
+
+	#include <list>  // Change into a diff DS or make our own class
+	#include <string>
+	#include <fstream>
+	#include <sstream>
+	#include <iostream>
+	#include <boost/algorithm/string.hpp>
+
+	#include <xercesc/util/PlatformUtils.hpp>
+	#include <xercesc/util/XMLString.hpp>
+	#include <xercesc/parsers/AbstractDOMParser.hpp>
+	#include <xercesc/dom/DOM.hpp>
+	#include <xercesc/parsers/XercesDOMParser.hpp>
+
+	#include "Media/FrameState.H"
+	#include "Image/OpenCVUtil.H"
+	#include "Channels/ChannelOpts.H"
+	#include "Component/GlobalOpts.H"
+	#include "Component/ModelManager.H"
+	#include "Component/JobServerConfigurator.H"
+	#include "Features/HistogramOfGradients.H"
+	#include "Image/FilterOps.H"    // for lowPass3y()
+	#include "Image/Kernels.H"      // for twofiftyfives()
+	#include "Image/ColorOps.H"
+	#include "Image/fancynorm.H"
+	#include "Image/MorphOps.H"
+	#include "Image/ShapeOps.H"   // for rescale()
+	#include "Raster/GenericFrame.H"
+	#include "Raster/PngWriter.H"
+	#include "Media/FrameRange.H"
+	#include "Media/FrameSeries.H"
+	#include "Media/SimFrameSeries.H"
+	#include "Media/MediaOpts.H"
+	#include "Neuro/SpatialMetrics.H"
+	#include "Neuro/StdBrain.H"
+	#include "Neuro/NeuroOpts.H"
+	#include "Neuro/Retina.H"
+	#include "Neuro/VisualCortex.H"
+	#include "Neuro/SimulationViewerStd.H"
+	#include "SIFT/Histogram.H"
+	#include "Simulation/SimEventQueueConfigurator.H"
+	#include "Util/sformat.H"
+	#include "Util/StringConversions.H"
+	#include "Util/Pause.H"
+	#include "Data/Logger.H"
+	#include "Data/MbariMetaData.H"
+	#include "Data/MbariOpts.H"
+
+	#include "DetectionAndTracking/FOEestimator.H"
+	#include "DetectionAndTracking/VisualEventSet.H"
+	#include "DetectionAndTracking/DetectionParameters.H"
+	#include "DetectionAndTracking/MbariFunctions.H"
+	#include "DetectionAndTracking/Segmentation.H"
+	#include "DetectionAndTracking/ColorSpaceTypes.H"
+	#include "DetectionAndTracking/ObjectDetection.H"
+	#include "DetectionAndTracking/Preprocess.H"
+	#include "Image/MbariImage.H"
+	#include "Image/MbariImageCache.H"
+	#include "Image/BitObject.H"
+	#include "Image/DrawOps.H"
+	#include "Image/MathOps.H"
+	#include "Image/IO.H"
+	#include "Learn/BayesClassifier.H"
+	#include "Media/MbariResultViewer.H"
+	#include "Motion/MotionEnergy.H"
+	#include "Motion/MotionOps.H"
+	#include "Motion/OpticalFlow.H"
+	#include "Util/StringConversions.H"
+	#include "Utils/Version.H"
+	#include "Component/ModelManager.H"
+	#include "DetectionAndTracking/DetectionParameters.H"
+	#include "Simulation/SimEventQueueConfigurator.H"
+	#include "DetectionAndTracking/BoxObjectDetection.H"
+
+	using namespace std;
+	using namespace xercesc;
 
 	struct BoundingBox {
 		int xmin;

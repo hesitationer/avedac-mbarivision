@@ -57,6 +57,7 @@
 #include "Data/Logger.H"
 #include "Data/MbariMetaData.H"
 #include "Data/MbariOpts.H"
+
 #include "DetectionAndTracking/FOEestimator.H"
 #include "DetectionAndTracking/VisualEventSet.H"
 #include "DetectionAndTracking/DetectionParameters.H"
@@ -85,7 +86,6 @@
 
 #include "InternFunctions.H"
 
-using namespace std;
 using namespace xercesc;
 using namespace InternFunctions;
 
@@ -142,7 +142,7 @@ int main(const int argc, const char** argv) {
 	manager.addSubComponent(ifs);
 
 	// Get the directory of this executable
-    string exe(argv[0]);
+    std::string exe(argv[0]);
     size_t found = exe.find_last_of("/\\");
     nub::soft_ref<Logger> logger(new Logger(manager, ifs, ofs, exe.substr(0, found)));
     manager.addSubComponent(logger);
@@ -177,11 +177,11 @@ int main(const int argc, const char** argv) {
     // is this a a gray scale sequence ? if so disable computing the color channels
     // to save computation time. This assumes the color channel has no weight !
     if (dp.itsColorSpaceType == SAColorGray) {
-        string search = "C";
-        string source = manager.getOptionValString(&OPT_VisualCortexType);
+    	std::string search = "C";
+    	std::string source = manager.getOptionValString(&OPT_VisualCortexType);
         size_t pos = source.find(search);
         if (pos != string::npos) {
-            string replace = source.erase(pos, 1);
+        	std::string replace = source.erase(pos, 1);
             manager.setOptionValString(&OPT_VisualCortexType, replace);
         }
     }
@@ -195,7 +195,7 @@ int main(const int argc, const char** argv) {
     }
 
     int foaRadius;
-    const string foar = manager.getOptionValString(&OPT_FOAradius);
+    const std::string foar = manager.getOptionValString(&OPT_FOAradius);
     convertFromString(foar, foaRadius);
 
     // calculate the foa size based on the image size if set to defaults
@@ -420,7 +420,7 @@ int main(const int argc, const char** argv) {
 	}
 	manager.stop();
 
-	cout << "Reached END" << endl;
+	std::cout << "Reached END" << std::endl;
 
 	delete itsParser;
 
