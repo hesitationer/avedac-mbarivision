@@ -353,7 +353,7 @@ int main(const int argc, const char** argv) {
 
 		// Image< PixRGB<byte > >
 //			rv->output(ofs, , frameNum, "Rectangles");
-		reclist.clear();
+		creatureList.clear();
 		objs.clear();
 
 		FrameState os = FRAME_NEXT;
