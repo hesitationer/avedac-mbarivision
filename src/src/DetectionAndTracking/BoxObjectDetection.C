@@ -55,9 +55,10 @@ std::list<BitObject> BoxObjectDetection::run(
     //go through each winner and extract salient objects
     while (iter != creatureList.end()) {
 
-		//list of boxes
-		//replace with our box
+		// Creature's values
 		Rectangle region = (*iter).getDimensions();
+		std::string className = (*iter).getName();
+		float classProbability = (*iter).getProbability();
 
 		//check if this list is empty
 		Point2D<int> unusedSeed;
@@ -79,7 +80,7 @@ std::list<BitObject> BoxObjectDetection::run(
 				largest = siter;
 			}
 		if (largest->isValid()) {
-			//largest->setClassProbability(className, classProbability);
+			largest->setClassProbability(className, classProbability);
 			bosFiltered.push_back(*largest);
 		} else {
 			Image<byte> foamask;
