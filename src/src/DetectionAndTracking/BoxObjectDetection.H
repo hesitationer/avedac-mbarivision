@@ -9,6 +9,11 @@
 #ifndef SRC_DETECTIONANDTRACKING_BOXOBJECTDETECTION_H_
 #define SRC_DETECTIONANDTRACKING_BOXOBJECTDETECTION_H_
 
+#include <map>
+#include <vector>
+#include <list>
+#include <string>
+
 #include "Component/ModelManager.H"
 #include "Component/ModelParam.H"
 #include "Component/OptionManager.H"
@@ -24,10 +29,6 @@
 #include "Image/Rectangle.H" //New rectangle
 
 #include "Creature.H"
-
-#include <map>
-#include <vector>
-#include <list>
 
 class BoxObjectDetection : public ModelComponent //Ask if we need to inheritance ModelComponent
 {
