@@ -85,6 +85,8 @@ std::list<BitObject> BoxObjectDetection::run(
 			Image<byte> foamask;
 			BitObject bo;
 			bo.reset(makeBinary(foamask,byte(1),byte(1),byte(1)));
+
+			bosFiltered.push_back(bo);
 		}
 
 		++iter;

@@ -8,9 +8,10 @@ readAnnotations --in=raster:/data/f#.png \
 --mbari-save-results \
 --mbari-save-output \
 --mbari-save-events-xml=/data/all_results/results.xml \
---mbari-display-results --logverb=Debug \
+--mbari-display-results --logverb=Info \
 --mbari-rescale-display=320x240 \
---mbari-tracking-mode=NearestNeighborHough \
+--mbari-tracking-mode=Hough \
+--mbari-mark-interesting=Outline \
 --mbari-segment-algorithm-input-image=Luminance \
 --mbari-min-event-frames=3 --mbari-color-space=RGB \
 --mbari-se-size=4 \
