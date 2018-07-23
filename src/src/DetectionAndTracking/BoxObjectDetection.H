@@ -23,6 +23,8 @@
 #include "Media/MbariResultViewer.H"
 #include "Image/Rectangle.H" //New rectangle
 
+#include "Creature.H"
+
 #include <map>
 #include <vector>
 #include <list>
@@ -45,7 +47,7 @@ public:
 
 	  //! BoxObjectDetection
 	std::list<BitObject> run(nub::soft_ref<MbariResultViewer> rv,
-					const std::list<Rectangle> &rec,
+					const std::list<Creature> &creatureList,
 					const Image< PixRGB<byte> > &segmentInImg);
 
 	protected:

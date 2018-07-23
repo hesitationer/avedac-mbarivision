@@ -42,22 +42,22 @@ void BoxObjectDetection::paramChanged(ModelParamBase* const param,
 // ======> TODO: Pass in list of custom class/struct that encapsulates rect, class name/probability here
 std::list<BitObject> BoxObjectDetection::run(
     nub::soft_ref<MbariResultViewer> rv,
-    const std::list<Rectangle> &rec,
+    const std::list<Creature> &creatureList,
     const Image< PixRGB<byte> > &segmentInImg)
 {
     DetectionParameters p = DetectionParametersSingleton::instance()->itsParameters;
     std::list<BitObject> bosFiltered;
     std::list<BitObject> bosUnfiltered;
-    std::list<Rectangle>::const_iterator iter = rec.begin();
+    std::list<Creature>::const_iterator iter = creatureList.begin();
     int minArea = p.itsMinEventArea;
     int maxArea = p.itsMaxEventArea;
 
     //go through each winner and extract salient objects
-    while (iter != rec.end()) {
+    while (iter != creatureList.end()) {
 
 		//list of boxes
 		//replace with our box
-		Rectangle region = (*iter);
+		Rectangle region = (*iter).getDimensions();
 
 		//check if this list is empty
 		Point2D<int> unusedSeed;
