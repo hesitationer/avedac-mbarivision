@@ -315,7 +315,7 @@ int main(const int argc, const char** argv) {
 			// update the open events
 			eventSet.updateEvents(rv, bayesClassifier, features, imgData);
 		}
-		std::list<Creature> creaturelist;
+		std::list<Creature> creatureList;
 		std::list<BitObject> objs;
 
 		// Read File - get list<Rectangle>
@@ -327,7 +327,7 @@ int main(const int argc, const char** argv) {
 
 		// 	- Extract Values
 		if (itsParser->getErrorCount() == 0) {
-			getObjectValues(itsParser, creaturelist);
+			getObjectValues(itsParser, creatureList);
 		} else {
 		  cout << "Error when attempting to parse the XML file : " << description.c_str() << endl;
 		  return -1;
