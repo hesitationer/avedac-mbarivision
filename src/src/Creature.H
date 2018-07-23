@@ -14,8 +14,12 @@
 
 class Creature {
 public:
-	Creature();
-	virtual ~Creature();
+	Creature() {
+		itsName = "";
+		itsProbability = 0;
+		itsDimensions = Rectangle::tlbrI(0, 0, 0, 0);
+	}
+
 
 	// Getters
 	std::string getName()const 		{return itsName;}

@@ -75,6 +75,7 @@ namespace InternFunctions {
 	#include "DetectionAndTracking/DetectionParameters.H"
 	#include "Simulation/SimEventQueueConfigurator.H"
 	#include "DetectionAndTracking/BoxObjectDetection.H"
+	#include "Creature.H"
 
 	using namespace std;
 	using namespace xercesc;
@@ -126,7 +127,7 @@ namespace InternFunctions {
 	}
 
 	// 	- Reads .xml for values in <object> ... </object>
-	void getObjectValues(XercesDOMParser *itsParser, list<Rectangle>& creatureDims, list<float>& confidencePer) {
+	void getObjectValues(XercesDOMParser *itsParser, list<Creature>& creatureList) {
 		DOMNodeList *list = NULL;
 		DOMDocument *domDocParser = itsParser->getDocument();
 
@@ -140,7 +141,8 @@ namespace InternFunctions {
 			DOMNode *node = list->item(i); 						// Gets the ith <object> in the list
 			DOMNodeList *length = node->getChildNodes(); 		// Lines counted, including: "<object> ... </object>" = 13 lines total
 
-			BoundingBox temp;
+			BoundingBox tempDim;
+			Creature tempCreature;
 
 			// Iterate through ea. <tag> in <object> ... </object> to retrieve values
 			for(int k = 0; k < length->getLength(); ++k) {
@@ -162,13 +164,16 @@ namespace InternFunctions {
 								string tagNameBB = XMLString::transcode(dim->getNodeName());		// <Gets Tag Name>
 								string tagValueBB = XMLString::transcode(dim->getTextContent());	// <tag> Gets Value </tag>
 
-								storeValue(temp, tagNameBB, tagValueBB);							// Store the dim values 1 by 1
+								storeValue(tempDim, tagNameBB, tagValueBB);							// Store the dim values 1 by 1
 							}
 						}
 
-						creatureDims.push_back(Rectangle::tlbrI(temp.ymin, temp.xmin, temp.ymax, temp.xmax));	// Store creature found b/c dim are the last values to collect
+						tempCreature.setDimensions(Rectangle::tlbrI(tempDim.ymin, tempDim.xmin, tempDim.ymax, tempDim.xmax));	// Store creature found b/c dim are the last values to collect
 
 						break;
+					} else if(tagNameObj =="name"){
+						cout << " el nombre " <<  tagValueObj <<  endl;
+
 					} else if(tagNameObj == "confidence") {
 
 						// Convert Confidence value from 'string to int'
@@ -176,13 +181,14 @@ namespace InternFunctions {
 						double dim = 0;
 						is >> dim;
 
-						confidencePer.push_back(dim);
+						//confidencePer.push_back(dim);
 					}
+
 				}
 			}
 
-			if(confidencePer.empty())
-				confidencePer.push_back(1);
+//			if(confidencePer.empty())
+//				confidencePer.push_back(1);
 		}
 	}
 }
