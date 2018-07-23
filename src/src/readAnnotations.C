@@ -86,6 +86,7 @@
 
 #include "InternFunctions.H"
 
+using namespace std;
 using namespace xercesc;
 using namespace InternFunctions;
 
@@ -161,8 +162,10 @@ int main(const int argc, const char** argv) {
 
 	if (manager.parseCommandLine(argc, argv, "", 0, -1) == NULL)
 		LFATAL("Invalid command line argument. Aborting program now !");
+    LINFO("1");
 	// fix empty frame range bug and set the range to be the same as the input frame range
     FrameRange fr = ifs->getModelParamVal< FrameRange > ("InputFrameRange");
+    LINFO("2");
     if (fr.getLast() == MAX_INT32) {
         FrameRange range(0, 0, 0);
         ifs->setModelParamVal(string("InputFrameRange"), range);
@@ -173,7 +176,7 @@ int main(const int argc, const char** argv) {
         ofs->setModelParamVal(string("OutputFrameRange"), fr);
 	    // get image dimensions and set a few parameters that depend on it
     parms->reset(&dp);
-
+    LINFO("3");
     // is this a a gray scale sequence ? if so disable computing the color channels
     // to save computation time. This assumes the color channel has no weight !
     if (dp.itsColorSpaceType == SAColorGray) {
@@ -187,6 +190,7 @@ int main(const int argc, const char** argv) {
     }
 
 	Dims scaledDims = ifs->peekDims();
+
 	// if the user has selected to retain the original dimensions in the events disable scaling in the frame series
     // and use the scaling factors directly
     if (dp.itsSaveOriginalFrameSpec) {
@@ -249,7 +253,7 @@ int main(const int argc, const char** argv) {
     BayesClassifier bayesClassifier(dp.itsBayesPath, dp.itsFeatureType, scaledDims);
     FeatureCollection features(scaledDims);
 
-	// Read all .xml
+//	 Read all .xml
 	while(1) {
 
 		// Read new image in
