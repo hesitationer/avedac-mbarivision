@@ -315,9 +315,8 @@ int main(const int argc, const char** argv) {
 			// update the open events
 			eventSet.updateEvents(rv, bayesClassifier, features, imgData);
 		}
-		std::list<Rectangle> reclist;
+		std::list<Creature> creaturelist;
 		std::list<BitObject> objs;
-		std::list<float> confidencePer;
 
 		// Read File - get list<Rectangle>
 		string description(manager.getOptionValString(&OPT_InputFrameSource).c_str());
@@ -328,7 +327,7 @@ int main(const int argc, const char** argv) {
 
 		// 	- Extract Values
 		if (itsParser->getErrorCount() == 0) {
-			getObjectValues(itsParser, reclist, confidencePer);
+			getObjectValues(itsParser, creaturelist);
 		} else {
 		  cout << "Error when attempting to parse the XML file : " << description.c_str() << endl;
 		  return -1;
@@ -346,20 +345,8 @@ int main(const int argc, const char** argv) {
 		rv->display(t, frameNum, "Segment.25");
 		#endif
 
-		// View creatures found in .xml
-		cout << "Size: " << reclist.size() << endl;
-
-		// ##### OUTPUT CONFIDENCE LEVEL
-
-		std::list<double>::iterator it;
-		cout << "List Size: " << confidencePer.size() << endl;
-		if(!confidencePer.empty())
-			cout << " ########## " << "Confidence Per: %" << confidencePer.front() << " ########## "<< endl;
-
-		// #####
-
 		LINFO("START > objdet->run() <");
-		objs = objdet->run(rv, reclist, segmentIn);
+		objs = objdet->run(rv, creatureList, segmentIn);
 
 		// create new events with this
 		eventSet.initiateEvents(objs, features, imgData);
