@@ -172,7 +172,7 @@ namespace InternFunctions {
 
 						break;
 					} else if(tagNameObj =="name"){
-						cout << " el nombre " <<  tagValueObj <<  endl;
+						cout << "################# Name: " <<  tagValueObj <<  endl;
 
 					} else if(tagNameObj == "confidence") {
 
