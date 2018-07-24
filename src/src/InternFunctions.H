@@ -172,7 +172,8 @@ namespace InternFunctions {
 
 						break;
 					} else if(tagNameObj =="name"){
-						cout << " el nombre " <<  tagValueObj <<  endl;
+						cout << "Name:  " <<  tagValueObj <<  endl;
+						//tempCreature.setName(tagValueObj);
 
 					} else if(tagNameObj == "confidence") {
 
@@ -181,14 +182,13 @@ namespace InternFunctions {
 						double dim = 0;
 						is >> dim;
 
-						//confidencePer.push_back(dim);
+						//tempCreature.setProbability(dim);
 					}
 
 				}
 			}
 
-//			if(confidencePer.empty())
-//				confidencePer.push_back(1);
+			//	creatureList ?= tempCreature;
 		}
 	}
 }
