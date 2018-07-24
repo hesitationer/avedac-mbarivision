@@ -1,13 +1,13 @@
 #!/bin/bash
 export DISPLAY=docker.for.mac.localhost:0
 export AVED_BIN=/usr/local/bin
-readAnnotations --in=raster:/data/f#.png \
---out=raster:/data/all_results/ \
+readAnnotations --in=raster:/i2data/f#.png \
+--out=raster:/i2data/all_results/ \
 --input-frames=1-898@1 \
 --output-frames=1-898@1 \
 --mbari-save-results \
 --mbari-save-output \
---mbari-save-events-xml=/data/all_results/results.xml \
+--mbari-save-events-xml=/i2data/all_results/results.xml \
 --mbari-display-results --logverb=Info \
 --mbari-rescale-display=320x240 \
 --mbari-tracking-mode=Hough \
