@@ -21,3 +21,4 @@ readAnnotations --in=raster:/data/f#.png \
 --mbari-min-event-frames=1 \
 --mbari-segment-graph-parameters=0.75,500,250 \
 --mbari-segment-adaptive-parameters=2,2 --mbari-dynamic-mask=true \
+

@@ -168,7 +168,7 @@ namespace InternFunctions {
 							}
 						}
 
-						tempCreature.setDimensions(Rectangle::tlbrI(tempDim.ymin, tempDim.xmin, tempDim.ymax, tempDim.xmax));	// Store creature found b/c dim are the last values to collect
+						tempCreature.setDimensions(Rectangle::tlbrO(tempDim.ymin, tempDim.xmin, tempDim.ymax, tempDim.xmax));	// Store creature found b/c dim are the last values to collect
 
 						break;
 					} else if(tagNameObj =="name"){
