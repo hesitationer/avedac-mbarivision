@@ -279,6 +279,7 @@ int main(const int argc, const char** argv) {
 			inputScaled = rescale(inputRaw, scaledDims);
 
 			frameNum = ifs->frame();
+			cout << "#### " << frameNum << " ####\n";
 
 			// get updated input image erasing previous bit objects
 			const list<BitObject> bitObjectFrameList = eventSet.getBitObjectsForFrame(frameNum - 1);
