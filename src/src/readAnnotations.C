@@ -319,6 +319,7 @@ int main(const int argc, const char** argv) {
 			// update the open events
 			eventSet.updateEvents(rv, bayesClassifier, features, imgData);
 		}
+
 		std::list<Creature> creatureList;
 		std::list<BitObject> objs;
 

@@ -52,7 +52,7 @@ std::list<BitObject> BoxObjectDetection::run(
     int minArea = p.itsMinEventArea;
     int maxArea = p.itsMaxEventArea;
 
-    //go through each winner and extract salient objects
+    //go through each creature and extract objects
     while (iter != creatureList.end()) {
 
 		// Creature's values
@@ -60,10 +60,10 @@ std::list<BitObject> BoxObjectDetection::run(
 		std::string className = (*iter).getName();
 		float classProbability = (*iter).getProbability();
 
-		//check if this list is empty
 		Point2D<int> unusedSeed;
 		std::list<BitObject> sobjsKeep = extractBitObjects(segmentInImg, unusedSeed, region, region, minArea, maxArea);
         // add to the list
+		LINFO("sobjsKeep.size() = %lu", sobjsKeep.size());
         bosUnfiltered.splice(bosUnfiltered.begin(), sobjsKeep);
 
 		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
@@ -75,7 +75,7 @@ std::list<BitObject> BoxObjectDetection::run(
 		// find the largest object
 		largest = bosUnfiltered.begin();
 		for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
-			if (siter->getArea() > minSize) {
+			if (siter->isValid() && siter->getArea() > minSize) {
 				minSize = siter->getArea();
 				largest = siter;
 			}
@@ -92,8 +92,8 @@ std::list<BitObject> BoxObjectDetection::run(
 
 		++iter;
     }
-    LINFO("Found total %lu objects", bosFiltered.size());
-    return bosFiltered;
+    LINFO("Found total %lu objects", bosUnfiltered.size());
+    return bosUnfiltered;
 }
 
 // ######################################################################
