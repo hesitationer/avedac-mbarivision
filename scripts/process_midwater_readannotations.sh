@@ -9,16 +9,15 @@ readAnnotations --in=raster:/data/f#.png \
 --mbari-save-output \
 --mbari-save-original-frame-spec \
 --mbari-save-events-xml=/data/all_results/results.xml \
---mbari-display-results --logverb=Info \
+--mbari-display-results --logverb=Debug \
 --mbari-rescale-display=960x540 \
 --mbari-tracking-mode=Hough \
 --mbari-mark-interesting=Outline \
 --mbari-segment-algorithm-input-image=Luminance \
---mbari-min-event-frames=3 --mbari-color-space=RGB \
 --mbari-se-size=10 \
 --mbari-cache-size=120 \
---mbari-segment-algorithm=Best --mbari-rescale-display=960x540 \
+--mbari-segment-algorithm=Best \
 --mbari-min-event-frames=1 \
+--mbari-min-event-area=100 \
 --mbari-segment-graph-parameters=0.75,500,250 \
---mbari-segment-adaptive-parameters=2,2 --mbari-dynamic-mask=true \
-
+--mbari-dynamic-mask=true
