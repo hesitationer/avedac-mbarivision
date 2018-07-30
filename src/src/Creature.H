@@ -14,12 +14,8 @@
 
 class Creature {
 public:
-	Creature() {
-		itsName = "";
-		itsProbability = 0;
-		itsDimensions = Rectangle::tlbrI(0, 0, 0, 0);
-	}
-
+	Creature();
+	~Creature();
 
 	// Getters
 	std::string getName()const 		{return itsName;}
