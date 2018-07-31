@@ -86,7 +86,8 @@ namespace InternFunctions {
 		int xmax;
 		int ymax;
 	};
-
+	double rescalePercentWidth;
+	double rescalePercentHeigth;
 	// Main Functions
 	// 	- Stores value in temporary 'Creature' Object
 	void storeValue(BoundingBox& temp, const string& tagName, const string& tagValue) {    // Stores value in temporary 'Creature' Object
@@ -105,7 +106,13 @@ namespace InternFunctions {
 			temp.ymax = dim;
 		}
 	}
+	int getRescaleValues(const string& value){
+		istringstream is(value);
+		int val = 0;
+		is >> val;
 
+		return val;
+	}
 	// 	- Get .xml in directory
 	string getmyXML(const string& descrip, const uint& fnum){
 		vector<string>image_path;
@@ -125,6 +132,42 @@ namespace InternFunctions {
 		xml_path.append(fs);
 		return xml_path;
 	}
+	// 	- Reads .xml for values in <size> ... </size>
+	// get percent
+	void getImageSize(XercesDOMParser *itsParser,const int& resWidth,const int& resHeight){
+		DOMNodeList *list = NULL;
+		DOMDocument *domDocParser = itsParser->getDocument();
+
+		XMLCh *source = XMLString::transcode("size"); 		// Tag wanted
+		list = domDocParser->getElementsByTagName(source);		// Returns list of '<tag>' found
+		int originalWidth = 0, originalHeight = 0;
+		for(int i = 0; i < list->getLength(); ++i){
+			DOMNode *node = list->item(i); 						// Gets the ith <object> in the list
+			DOMNodeList *length = node->getChildNodes(); 		// Lines counted, including: "<object> ... </object>" = 13 lines total
+			for(int k = 0; k < length->getLength(); ++k) {
+				DOMNode *childNode = length->item(k);
+
+				if(childNode->getNodeType() == DOMNode::ELEMENT_NODE) {						// Ensures we found a <tag>
+					string tagNameObj = XMLString::transcode(childNode->getNodeName());		// <Gets Tag Name>
+					string tagValueObj = XMLString::transcode(childNode->getTextContent());	// <tag> Gets Value </tag>
+					istringstream is(tagValueObj);
+					if(tagNameObj =="width"){
+						is >> originalWidth;
+						cout << "width: " << originalWidth <<  endl;
+					} else if(tagNameObj =="height"){
+						is >> originalHeight;
+						cout << "height: " <<  originalHeight <<  endl;
+					}
+				}
+			}
+		}
+		double result = (1.0 - (double(originalWidth-resWidth)/originalWidth));
+		rescalePercentWidth = result;
+		double result2 = (1.0 - (double(originalHeight-resHeight)/originalHeight));
+		rescalePercentHeigth = result2;
+	}
+
+
 
 	// 	- Reads .xml for values in <object> ... </object>
 	void getObjectValues(XercesDOMParser *itsParser, list<Creature>& creatureList) {
@@ -168,8 +211,8 @@ namespace InternFunctions {
 							}
 						}
 
-						tempCreature.setDimensions(Rectangle::tlbrO(tempDim.ymin, tempDim.xmin, tempDim.ymax, tempDim.xmax));	// Store creature found b/c dim are the last values to collect
-
+						tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeigth), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeigth), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
+						//cout << "updated " << int(tempDim.xmin * rescalePercentWidth) << " " << int(tempDim.ymin * rescalePercentHeigth)<< endl;
 						break;
 					} else if(tagNameObj =="name"){
 						cout << "Name: " <<  tagValueObj <<  endl;
@@ -187,8 +230,8 @@ namespace InternFunctions {
 
 				}
 			}
-
 			creatureList.push_back(tempCreature);
 		}
 	}
-}
+	}
+

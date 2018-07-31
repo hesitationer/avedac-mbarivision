@@ -142,6 +142,7 @@ int main(const int argc, const char** argv) {
 	manager.addSubComponent(ofs);
 	manager.addSubComponent(ifs);
 
+
 	// Get the directory of this executable
     std::string exe(argv[0]);
     size_t found = exe.find_last_of("/\\");
@@ -324,6 +325,13 @@ int main(const int argc, const char** argv) {
 		std::list<Creature> creatureList;
 		std::list<BitObject> objs;
 
+		//Get rescale values.
+		string rescaleValues(manager.getOptionValString(&OPT_InputFrameDims).c_str());
+		int i=rescaleValues.find("x");
+		int width=getRescaleValues(rescaleValues.substr(0,i));
+		int heigth=getRescaleValues(rescaleValues.substr(i+1,rescaleValues.size()-1));
+		cout << "W: " << width << " H: " << heigth << endl;
+
 		// Read File - get list<Rectangle>
 		string description(manager.getOptionValString(&OPT_InputFrameSource).c_str());
 		description = "/" + getmyXML(description, frameNum);
@@ -333,7 +341,9 @@ int main(const int argc, const char** argv) {
 
 		// 	- Extract Values
 		if (itsParser->getErrorCount() == 0) {
+			getImageSize(itsParser, width, heigth);
 			getObjectValues(itsParser, creatureList);
+
 		} else {
 		  cout << "Error when attempting to parse the XML file : " << description.c_str() << endl;
 		  return -1;
