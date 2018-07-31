@@ -13,7 +13,7 @@ for x in $p*.pnm + 1; do
     fi
   done
 
-  ffmpeg -i $p$ind.pnm pngs/$p$ind.png
+  ffmpeg -i $p$ind.pnm pngs/r$ind.png
 
   ((++i))
   ind=$i

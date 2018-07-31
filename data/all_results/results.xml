@@ -1,58 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EventDataSet CreationDate="2018-07-26 21:00:11 UTC" EndFrame="5" StartFrame="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<EventDataSet CreationDate="2018-07-31 20:25:11 UTC" EndFrame="5" StartFrame="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <!--Created by: MBARI software mbarivision v1.0.0 (C) 2003-2016 MBARI built Jul 26 2018 at 01:06:13
+  <!--Created by: MBARI software mbarivision v1.0.0 (C) 2003-2016 MBARI built Jul 31 2018 at 18:13:08
 -->
 
   <EventDetectionParameters CacheSize="10" ColorSpaceType="RGB" KeepWTABoring="0" MaxCost="161600" MaxEventArea="0" MaxEvolveTime="500" MaxFramesEvent="-1" MaxWTAPoints="20" MinEventArea="0" MinFramesEvent="1" MinStdDev="0" SaliencyInputImageType="DiffMean" SaveNonInteresting="0" SaveOriginalFrameSpec="0" SegmentAdaptiveParameters="2,7" SegmentAlgorithmInputImageType="DiffMean" SegmentAlgorithmType="Best" SegmentGraphParameters="0.75,500,50" TrackingMode="KalmanFilter"/>
-
-  <FrameEventSet FrameNumber="1" TimeCode=""/>
-
-  <FrameEventSet FrameNumber="2" TimeCode=""/>
-
-  <FrameEventSet FrameNumber="3" TimeCode="">
-    <EventObject CurrSize="656" CurrX="1699" CurrY="500" ObjectID="1" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="1684" LowerLeftY="514" UpperRightX="1717" UpperRightY="489"/>
-    </EventObject>
-    <EventObject CurrSize="1940" CurrX="731" CurrY="296" ObjectID="3" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="703" LowerLeftY="314" UpperRightX="762" UpperRightY="277"/>
-    </EventObject>
-    <EventObject CurrSize="306" CurrX="735" CurrY="313" ObjectID="4" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="709" LowerLeftY="320" UpperRightX="757" UpperRightY="281"/>
-    </EventObject>
-  </FrameEventSet>
-
-  <FrameEventSet FrameNumber="4" TimeCode="">
-    <EventObject CurrSize="478" CurrX="1710" CurrY="500" ObjectID="1" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="1695" LowerLeftY="510" UpperRightX="1724" UpperRightY="489"/>
-    </EventObject>
-    <EventObject CurrSize="1880" CurrX="725" CurrY="291" ObjectID="3" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="699" LowerLeftY="310" UpperRightX="757" UpperRightY="271"/>
-    </EventObject>
-    <EventObject CurrSize="1016" CurrX="733" CurrY="323" ObjectID="4" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="711" LowerLeftY="336" UpperRightX="757" UpperRightY="309"/>
-    </EventObject>
-    <EventObject CurrSize="744" CurrX="1145" CurrY="174" ObjectID="5" Saliency="0" StartFrameNumber="2">
-      <BoundingBox LowerLeftX="1130" LowerLeftY="190" UpperRightX="1161" UpperRightY="161"/>
-    </EventObject>
-    <EventObject CurrSize="68" CurrX="1149" CurrY="160" ObjectID="6" Saliency="0" StartFrameNumber="2">
-      <BoundingBox LowerLeftX="1142" LowerLeftY="164" UpperRightX="1156" UpperRightY="157"/>
-    </EventObject>
-  </FrameEventSet>
-
-  <FrameEventSet FrameNumber="5" TimeCode="">
-    <EventObject CurrSize="438" CurrX="1721" CurrY="500" ObjectID="1" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="1708" LowerLeftY="512" UpperRightX="1734" UpperRightY="491"/>
-    </EventObject>
-    <EventObject CurrSize="1722" CurrX="718" CurrY="286" ObjectID="3" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="692" LowerLeftY="304" UpperRightX="745" UpperRightY="267"/>
-    </EventObject>
-    <EventObject CurrSize="1536" CurrX="721" CurrY="296" ObjectID="4" Saliency="0" StartFrameNumber="1">
-      <BoundingBox LowerLeftX="701" LowerLeftY="316" UpperRightX="745" UpperRightY="277"/>
-    </EventObject>
-    <EventObject CurrSize="576" CurrX="1148" CurrY="167" ObjectID="5" Saliency="0" StartFrameNumber="2">
-      <BoundingBox LowerLeftX="1136" LowerLeftY="180" UpperRightX="1161" UpperRightY="155"/>
-    </EventObject>
-  </FrameEventSet>
 
 </EventDataSet>

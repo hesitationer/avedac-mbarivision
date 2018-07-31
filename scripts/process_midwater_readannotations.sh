@@ -11,13 +11,13 @@ readAnnotations --in=raster:/data/f#.png \
 --mbari-save-events-xml=/data/all_results/results.xml \
 --mbari-display-results --logverb=Info \
 --mbari-rescale-display=400x300 \
---mbari-tracking-mode=Hough \
+--mbari-tracking-mode=KalmanFilterHough \
 --mbari-mark-interesting=Outline \
 --mbari-segment-algorithm-input-image=Luminance \
 --mbari-se-size=10 \
 --mbari-cache-size=120 \
 --mbari-segment-algorithm=Best \
---mbari-min-event-area=100 \
 --mbari-segment-graph-parameters=0.75,500,250 \
 --mbari-segment-adaptive-parameters=2,2 --mbari-dynamic-mask=true \
---mbari-min-event-frames=1
+--mbari-min-event-frames=3 --mbari-color-space=RGB \
+--mbari-x-kalman-parameters=0.1,10.0 --mbari-y-kalman-parameters=0.1,10.0

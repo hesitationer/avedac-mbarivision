@@ -1,1 +1,1 @@
-ffmpeg -framerate 1/2 -i results%06d.png output.mp4
+ffmpeg -framerate 1/2 -i r*.png output.mp4

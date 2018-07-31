@@ -1598,12 +1598,12 @@ MBARI Related Options:
       Rescale input to the saliency algorithm to <width>x<height>, or 0x0 for 
       no rescaling
 
-  --mbari-segment-algorithm=<MeanAdaptive|MedianAdaptive|MeanMinMaxAdapative|GraphCut|Best> [Best]  (SegmentAlgorithmType)
-      Segment algorithm to find foreground objects
+  **--mbari-segment-algorithm=<MeanAdaptive|MedianAdaptive|MeanMinMaxAdapative|GraphCut|Best> [Best]  (SegmentAlgorithmType)
+      Segment algorithm to find foreground objects**
 
-  --mbari-segment-algorithm-input-image=<DiffMean|Luminance> [DiffMean]  
+  **--mbari-segment-algorithm-input-image=<DiffMean|Luminance> [DiffMean]  
     (SegmentAlgorithmInputImageType)
-      Segment algorithm input images type
+      Segment algorithm input images type**
 
   --mbari-segment-graph-parameters=sigma, k, minsize [0.75,500,50]  
     (std::string)

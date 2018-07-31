@@ -356,6 +356,7 @@ int main(const int argc, const char** argv) {
 
 		// create new events with this
 		eventSet.initiateEvents(objs, features, imgData);
+		LINFO("##### Num Events: %d #####", eventSet.numEvents());
 
 		// Image< PixRGB<byte > >
 //			rv->output(ofs, , frameNum, "Rectangles");
