@@ -7,13 +7,11 @@
 
 #include "Creature.H"
 
-Creature::Creature() {
-	itsName = "";
-	itsProbability = 0;
-	itsDimensions = Rectangle::tlbrI(0, 0, 0, 0);
-}
+//Creature::Creature() {
+//	itsName = "";
+//	itsProbability = 0;
+//	itsDimensions = Rectangle::tlbrI(0, 0, 0, 0);
+//}
 
-Creature::~Creature() {
-	// TODO Auto-generated destructor stub
-}
+
 

@@ -86,8 +86,12 @@ namespace InternFunctions {
 		int xmax;
 		int ymax;
 	};
+
+	// global variables
+	// Purpose: Store percent rescaled
 	double rescalePercentWidth;
 	double rescalePercentHeigth;
+
 	// Main Functions
 	// 	- Stores value in temporary 'Creature' Object
 	void storeValue(BoundingBox& temp, const string& tagName, const string& tagValue) {    // Stores value in temporary 'Creature' Object
@@ -133,7 +137,6 @@ namespace InternFunctions {
 		return xml_path;
 	}
 	// 	- Reads .xml for values in <size> ... </size>
-	// get percent
 	void getImageSize(XercesDOMParser *itsParser,const int& resWidth,const int& resHeight){
 		DOMNodeList *list = NULL;
 		DOMDocument *domDocParser = itsParser->getDocument();
@@ -161,10 +164,15 @@ namespace InternFunctions {
 				}
 			}
 		}
-		double result = (1.0 - (double(originalWidth-resWidth)/originalWidth));
-		rescalePercentWidth = result;
-		double result2 = (1.0 - (double(originalHeight-resHeight)/originalHeight));
-		rescalePercentHeigth = result2;
+		if(originalWidth!=resWidth && originalHeight!=resHeight){
+			double result = (1.0 - (double(originalWidth-resWidth)/originalWidth));
+			rescalePercentWidth = result;
+			double result2 = (1.0 - (double(originalHeight-resHeight)/originalHeight));
+			rescalePercentHeigth = result2;
+		} else{
+			rescalePercentWidth = 1.0;
+			rescalePercentHeigth = 1.0;
+		}
 	}
 
 

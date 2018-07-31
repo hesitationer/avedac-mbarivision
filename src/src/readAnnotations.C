@@ -83,6 +83,7 @@
 #include "DetectionAndTracking/DetectionParameters.H"
 #include "Simulation/SimEventQueueConfigurator.H"
 #include "DetectionAndTracking/BoxObjectDetection.H"
+#include "Creature.H"
 
 #include "InternFunctions.H"
 
@@ -342,6 +343,7 @@ int main(const int argc, const char** argv) {
 		// 	- Extract Values
 		if (itsParser->getErrorCount() == 0) {
 			getImageSize(itsParser, width, heigth);
+
 			getObjectValues(itsParser, creatureList);
 
 		} else {
@@ -366,7 +368,6 @@ int main(const int argc, const char** argv) {
 
 		// create new events with this
 		eventSet.initiateEvents(objs, features, imgData);
-		LINFO("##### Num Events: %d #####", eventSet.numEvents());
 
 		// Image< PixRGB<byte > >
 //			rv->output(ofs, , frameNum, "Rectangles");
