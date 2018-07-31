@@ -55,25 +55,21 @@ std::list<BitObject> BoxObjectDetection::run(
     //go through each creature and extract objects
     while (iter != creatureList.end()) {
 
-		// Creature's values
-		Rectangle region = (*iter).getDimensions();
-		std::string className = (*iter).getName();
-		float classProbability = (*iter).getProbability();
+   		// Creature's values
+   		Rectangle region = (*iter).getDimensions();
+   		std::string className = (*iter).getName();
+   		float classProbability = (*iter).getProbability();
 
-		Point2D<int> unusedSeed;
-		std::list<BitObject> sobjsKeep = extractBitObjects(segmentInImg, unusedSeed, region, region, minArea, maxArea);
-        // add to the list
-		LINFO("sobjsKeep.size() = %lu", sobjsKeep.size());
+   		Point2D<int> unusedSeed;
+   		std::list<BitObject> sobjsKeep = extractBitObjects(segmentInImg, unusedSeed, region, region, minArea, maxArea);
+           // add to the list
+   		LINFO("sobjsKeep.size() = %lu", sobjsKeep.size());
         bosUnfiltered.splice(bosUnfiltered.begin(), sobjsKeep);
 
-		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
+   		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
 
-		++iter;
-    }
-
-    bool found = false;
-	int minSize = p.itsMinEventArea;
-	if (p.itsRemoveOverlappingDetections) {
+   		bool found = false;
+		int minSize = p.itsMinEventArea;
 		LINFO("Removing overlapping detections");
 		// loop until we find all non-overlapping objects starting with the smallest
 		while (!bosUnfiltered.empty()) {
@@ -99,16 +95,15 @@ std::list<BitObject> BoxObjectDetection::run(
 				}
 			}
 
-			if (found && smallest->isValid())
+			if (found && smallest->isValid()) {
+				smallest->setClassProbability(className, classProbability);
 				bosFiltered.push_back(*smallest);
+			}
 		}
-	} else {
-		std::list<BitObject>::iterator biter;
-		for (biter = bosUnfiltered.begin(); biter != bosUnfiltered.end(); ++biter) {
-			if (biter->isValid())
-				bosFiltered.push_back(*biter);
-		}
-	}
+
+
+   		++iter;
+    }
 
     LINFO("Found total %lu objects", bosFiltered.size());
     return bosFiltered;
