@@ -199,6 +199,12 @@ public:
    // ! Returns the winning Saliency Map Voltage for this BitMap
   double getSMV();
 
+  // ! Returns the Potential Object's Name
+  std::string getClassName();
+
+  // ! Returns the Potential Object's Probability
+  float getClassProbability();
+
   //! whether the object is valid
   /*! This is going to be false if no object could be extracted
     from the image that was given at the constructor or at reset */

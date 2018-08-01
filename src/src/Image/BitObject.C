@@ -626,6 +626,16 @@ double BitObject::getSMV()
   return itsSMV;
 }
 // ######################################################################
+std::string BitObject::getClassName()
+{
+  return itsClassName;
+}
+// ######################################################################
+float BitObject::getClassProbability()
+{
+  return itsClassProbability;
+}
+// ######################################################################
 Dims BitObject::getImageDims() const
 {
   return itsImageDims;

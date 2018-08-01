@@ -14,6 +14,8 @@
 #include "Image/PixelsTypes.H"
 #include "Util/StringConversions.H"
 
+#include <iostream>
+
 class ModelParamBase;
 class DetectionParameters;
 
@@ -53,23 +55,87 @@ std::list<BitObject> BoxObjectDetection::run(
     int maxArea = p.itsMaxEventArea;
 
     //go through each creature and extract objects
+//    bool found = false;
+//    int minSize = p.itsMinEventArea;
     while (iter != creatureList.end()) {
 
-   		// Creature's values
-   		Rectangle region = (*iter).getDimensions();
-   		std::string className = (*iter).getName();
-   		float classProbability = (*iter).getProbability();
+		// Creature's values
+		Rectangle region = (*iter).getDimensions();
+		std::string className = (*iter).getName();
+		float classProbability = (*iter).getProbability();
 
-   		Point2D<int> unusedSeed;
-   		std::list<BitObject> sobjsKeep = extractBitObjects(segmentInImg, unusedSeed, region, region, minArea, maxArea);
-           // add to the list
-   		LINFO("sobjsKeep.size() = %lu", sobjsKeep.size());
+		Point2D<int> unusedSeed;
+		std::list<BitObject> sobjsKeep = extractBitObjects(segmentInImg, unusedSeed, region, region, minArea, maxArea);
+
+		int sobjsSize = sobjsKeep.size();
+
+		// add to the list
+		LINFO("sobjsKeep.size() = %lu", sobjsKeep.size());
         bosUnfiltered.splice(bosUnfiltered.begin(), sobjsKeep);
 
-   		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
+		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
 
-   		bool found = false;
-		int minSize = p.itsMinEventArea;
+		// Set newly found BitObject values w/ Creature's values
+		int i = 0;
+		for(std::list<BitObject>::iterator it = bosUnfiltered.begin(); i < sobjsSize; ++it) {
+			it->setClassProbability(className, classProbability);
+			++i;
+		}
+
+//		std::list<BitObject>::iterator biter, siter, smallest;
+//		// find the smallest object
+//		smallest = bosUnfiltered.begin();
+//		for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
+//			if (siter->isValid() && siter->getArea() < minSize) {
+//				minSize = siter->getArea();
+//				smallest = siter;
+//			}
+//
+//		// does the smallest object intersect with any of the already stored ones
+//		found = true;
+//		for (biter = bosFiltered.begin(); biter != bosFiltered.end(); ++biter) {
+//			if (smallest->isValid() && biter->isValid() && biter->doesIntersect(*smallest)) {
+//				// no need to store intersecting objects -> get rid of smallest
+//				// and look for the next smallest
+//				bosUnfiltered.erase(smallest);
+//				found = false;
+//				break;
+//			}
+//		}
+//
+//		if (found && smallest->isValid()) {
+//			smallest->setClassProbability(className, classProbability);
+//			bosFiltered.push_back(*smallest);
+//		}
+
+
+//		LINFO("Finding largest object");
+//		// loop until we find the largest bit object
+//		std::list<BitObject>::iterator biter, siter, largest;
+//		// find the largest object
+//		largest = bosUnfiltered.begin();
+//		for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
+//			if (siter->isValid() && siter->getArea() > minSize) {
+//				minSize = siter->getArea();
+//				largest = siter;
+//			}
+//		if (largest->isValid()) {
+//			largest->setClassProbability(className, classProbability);
+//			bosFiltered.push_back(*largest);
+//		} else {
+//			Image<byte> foamask;
+//			BitObject bo;
+//			bo.reset(makeBinary(foamask,byte(1),byte(1),byte(1)));
+//
+//			bosFiltered.push_back(bo);
+//		}
+
+		++iter;
+    }
+
+    bool found = false;
+	int minSize = p.itsMinEventArea;
+	if (p.itsRemoveOverlappingDetections) {
 		LINFO("Removing overlapping detections");
 		// loop until we find all non-overlapping objects starting with the smallest
 		while (!bosUnfiltered.empty()) {
@@ -96,14 +162,18 @@ std::list<BitObject> BoxObjectDetection::run(
 			}
 
 			if (found && smallest->isValid()) {
-				smallest->setClassProbability(className, classProbability);
+				std::cout << "### Name: " << smallest->getClassName()
+						<< " | Probability: " << smallest->getClassProbability() << " ###\n";
 				bosFiltered.push_back(*smallest);
 			}
 		}
-
-
-   		++iter;
-    }
+	} else {
+		std::list<BitObject>::iterator biter;
+		for (biter = bosUnfiltered.begin(); biter != bosUnfiltered.end(); ++biter) {
+			if (biter->isValid())
+				bosFiltered.push_back(*biter);
+		}
+	}
 
     LINFO("Found total %lu objects", bosFiltered.size());
     return bosFiltered;
