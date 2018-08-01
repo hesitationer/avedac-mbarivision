@@ -55,8 +55,6 @@ std::list<BitObject> BoxObjectDetection::run(
     int maxArea = p.itsMaxEventArea;
 
     //go through each creature and extract objects
-//    bool found = false;
-//    int minSize = p.itsMinEventArea;
     while (iter != creatureList.end()) {
 
 		// Creature's values
@@ -81,54 +79,6 @@ std::list<BitObject> BoxObjectDetection::run(
 			it->setClassProbability(className, classProbability);
 			++i;
 		}
-
-//		std::list<BitObject>::iterator biter, siter, smallest;
-//		// find the smallest object
-//		smallest = bosUnfiltered.begin();
-//		for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
-//			if (siter->isValid() && siter->getArea() < minSize) {
-//				minSize = siter->getArea();
-//				smallest = siter;
-//			}
-//
-//		// does the smallest object intersect with any of the already stored ones
-//		found = true;
-//		for (biter = bosFiltered.begin(); biter != bosFiltered.end(); ++biter) {
-//			if (smallest->isValid() && biter->isValid() && biter->doesIntersect(*smallest)) {
-//				// no need to store intersecting objects -> get rid of smallest
-//				// and look for the next smallest
-//				bosUnfiltered.erase(smallest);
-//				found = false;
-//				break;
-//			}
-//		}
-//
-//		if (found && smallest->isValid()) {
-//			smallest->setClassProbability(className, classProbability);
-//			bosFiltered.push_back(*smallest);
-//		}
-
-
-//		LINFO("Finding largest object");
-//		// loop until we find the largest bit object
-//		std::list<BitObject>::iterator biter, siter, largest;
-//		// find the largest object
-//		largest = bosUnfiltered.begin();
-//		for (siter = bosUnfiltered.begin(); siter != bosUnfiltered.end(); ++siter)
-//			if (siter->isValid() && siter->getArea() > minSize) {
-//				minSize = siter->getArea();
-//				largest = siter;
-//			}
-//		if (largest->isValid()) {
-//			largest->setClassProbability(className, classProbability);
-//			bosFiltered.push_back(*largest);
-//		} else {
-//			Image<byte> foamask;
-//			BitObject bo;
-//			bo.reset(makeBinary(foamask,byte(1),byte(1),byte(1)));
-//
-//			bosFiltered.push_back(bo);
-//		}
 
 		++iter;
     }
