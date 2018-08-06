@@ -195,6 +195,8 @@ namespace InternFunctions {
 
 			BoundingBox tempDim;
 			Creature tempCreature;
+			Rectangle invalidRect;
+			tempCreature.setDimensions(invalidRect);
 
 			// Iterate through ea. <tag> in <object> ... </object> to retrieve values
 			for(int k = 0; k < length->getLength(); ++k) {
@@ -219,7 +221,8 @@ namespace InternFunctions {
 								storeValue(tempDim, tagNameBB, tagValueBB);							// Store the dim values 1 by 1
 							}
 						}
-						tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeigth), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeigth), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
+						if(int(tempDim.xmin * rescalePercentWidth) > int(tempDim.ymin * rescalePercentHeigth))
+							tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeigth), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeigth), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
 
 						cout << "updated " << int(tempDim.xmin * rescalePercentWidth) << " " << int(tempDim.ymin * rescalePercentHeigth)<< endl;
 						break;
@@ -231,10 +234,10 @@ namespace InternFunctions {
 
 						// Convert Confidence value from 'string to int'
 						istringstream is(tagValueObj);
-						double dim = 0;
-						is >> dim;
+						double con = 0;
+						is >> con;
 
-						tempCreature.setProbability(dim);
+						tempCreature.setProbability(con);
 					}
 
 				}
@@ -243,6 +246,8 @@ namespace InternFunctions {
 			if(tempCreature.getDimensions().isValid())
 				creatureList.push_back(tempCreature);
 		}
+
+		cout << "#### Creature List Size: " << creatureList.size() << " #####\n";
 	}
-	}
+}
 
