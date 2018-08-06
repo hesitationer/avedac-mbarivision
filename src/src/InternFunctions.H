@@ -169,6 +169,7 @@ namespace InternFunctions {
 			rescalePercentWidth = result;
 			double result2 = (1.0 - (double(originalHeight-resHeight)/originalHeight));
 			rescalePercentHeigth = result2;
+			cout << "Rescale percentage: " << rescalePercentWidth << "% x " << rescalePercentHeigth << "%"<< endl;
 		} else{
 			rescalePercentWidth = 1.0;
 			rescalePercentHeigth = 1.0;
@@ -218,9 +219,9 @@ namespace InternFunctions {
 								storeValue(tempDim, tagNameBB, tagValueBB);							// Store the dim values 1 by 1
 							}
 						}
-
 						tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeigth), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeigth), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
-						//cout << "updated " << int(tempDim.xmin * rescalePercentWidth) << " " << int(tempDim.ymin * rescalePercentHeigth)<< endl;
+
+						cout << "updated " << int(tempDim.xmin * rescalePercentWidth) << " " << int(tempDim.ymin * rescalePercentHeigth)<< endl;
 						break;
 					} else if(tagNameObj =="name"){
 						cout << "Name: " <<  tagValueObj <<  endl;
@@ -238,7 +239,9 @@ namespace InternFunctions {
 
 				}
 			}
-			creatureList.push_back(tempCreature);
+
+			if(tempCreature.isValid())
+				creatureList.push_back(tempCreature);
 		}
 	}
 	}
