@@ -240,7 +240,7 @@ namespace InternFunctions {
 				}
 			}
 
-			if(tempCreature.isValid())
+			if(tempCreature.getDimensions().isValid())
 				creatureList.push_back(tempCreature);
 		}
 	}
