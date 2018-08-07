@@ -221,8 +221,9 @@ namespace InternFunctions {
 								storeValue(tempDim, tagNameBB, tagValueBB);							// Store the dim values 1 by 1
 							}
 						}
-						if(int(tempDim.xmin * rescalePercentWidth) > int(tempDim.ymin * rescalePercentHeigth))
-							tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeigth), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeigth), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
+						if(int(tempDim.xmin * rescalePercentWidth) != 0 && int(tempDim.ymin * rescalePercentHeigth) != 0)
+							if(int(tempDim.xmin * rescalePercentWidth) > int(tempDim.ymin * rescalePercentHeigth))
+								tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeigth), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeigth), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
 
 						cout << "updated " << int(tempDim.xmin * rescalePercentWidth) << " " << int(tempDim.ymin * rescalePercentHeigth)<< endl;
 						break;
