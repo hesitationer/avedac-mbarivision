@@ -1,17 +1,18 @@
 //============================================================================
-// Name        : locateCreatures.C
+// Name        : readAnnotations.C
 // Author      : Mayra Ochoa & Raymond Esteybar
 // Version     :
 // Copyright   : Your copyright notice
 // Description : Parses through .xml to gather the values in <object>
-//		 		 for the <name> & <bndbox> dimensions
+//		 		 for the <name>, <confidence> & <bndbox> values. Runs program
+//				 to detect animals in each frame.
 //============================================================================
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
 
-#include <list>  // Change into a diff DS or make our own class
+#include <list>
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -36,7 +37,7 @@
 #include "Image/ColorOps.H"
 #include "Image/fancynorm.H"
 #include "Image/MorphOps.H"
-#include "Image/ShapeOps.H"   // for rescale()
+#include "Image/ShapeOps.H"   	// for rescale()
 #include "Raster/GenericFrame.H"
 #include "Raster/PngWriter.H"
 #include "Media/FrameRange.H"
@@ -330,8 +331,8 @@ int main(const int argc, const char** argv) {
 		string rescaleValues(manager.getOptionValString(&OPT_InputFrameDims).c_str());
 		int i=rescaleValues.find("x");
 		int width=getRescaleValues(rescaleValues.substr(0,i));
-		int heigth=getRescaleValues(rescaleValues.substr(i+1,rescaleValues.size()-1));
-		cout << "W: " << width << " H: " << heigth << endl;
+		int height=getRescaleValues(rescaleValues.substr(i+1,rescaleValues.size()-1));
+		cout << "W: " << width << " H: " << height << endl;
 
 		// Read File - get list<Rectangle>
 		string description(manager.getOptionValString(&OPT_InputFrameSource).c_str());
@@ -342,7 +343,7 @@ int main(const int argc, const char** argv) {
 
 		// 	- Extract Values
 		if (itsParser->getErrorCount() == 0) {
-			getImageSize(itsParser, width, heigth);
+			getImageSize(itsParser, width, height);		// Checks if it's a rescaled image, & if so, change ea. object's <bndbox> dim.
 
 			getObjectValues(itsParser, creatureList);
 
@@ -351,6 +352,7 @@ int main(const int argc, const char** argv) {
 		  return -1;
 		}
 
+		// Displays segment windows
 		#ifdef DEBUG
 		Dims d = segmentIn.getDims();
 		rv->display(segmentIn, frameNum, "SegmentIn");

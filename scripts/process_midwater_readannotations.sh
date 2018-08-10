@@ -3,14 +3,15 @@ export DISPLAY=docker.for.mac.localhost:0
 export AVED_BIN=/usr/local/bin
 readAnnotations --in=raster:/data/f#.png \
 --out=raster:/data/all_results/ \
---input-frames=1-5@1 \
---output-frames=1-5@1 \
+--input-frames=1-120@1 \
+--output-frames=1-120@1 \
 --mbari-save-results \
 --mbari-save-output \
 --mbari-save-original-frame-spec \
 --mbari-save-events-xml=/data/all_results/results.xml \
 --mbari-display-results --logverb=Info \
 --mbari-rescale-display=400x300 \
+--rescale-input=960x540 \
 --mbari-tracking-mode=KalmanFilterHough \
 --mbari-mark-interesting=Outline \
 --mbari-segment-algorithm-input-image=Luminance \

@@ -1,9 +1,10 @@
-/*
- * Creature.H
- *
- *  Created on: Jul 19, 2018
- *      Author: Gray
- */
+//=============================================================================
+// Name        : Creature.H
+// Author      : Mayra Ochoa & Raymond Esteybar
+// Version     :
+// Copyright   :
+// Description : Contains animal's Name, Probability, & Bounding Box Dimensions
+//=============================================================================
 
 #ifndef SRC_CREATURE_H_
 #define SRC_CREATURE_H_
@@ -14,11 +15,8 @@
 
 class Creature {
 public:
-	Creature(){
-		itsName = "";
-		itsProbability = 0;
-		itsDimensions = Rectangle::tlbrI(0, 0, 0, 0);
-	}
+	Creature();
+
 	// Getters
 	std::string getName()const 		{return itsName;}
 	float getProbability()const 	{return itsProbability;}

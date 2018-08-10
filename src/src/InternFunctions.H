@@ -93,7 +93,7 @@ namespace InternFunctions {
 	double rescalePercentHeigth;
 
 	// Main Functions
-	// 	- Stores value in temporary 'Creature' Object
+	// 	- Stores value in temporary 'BoundingBox' Object
 	void storeValue(BoundingBox& temp, const string& tagName, const string& tagValue) {    // Stores value in temporary 'Creature' Object
 		// Convert Bounding Box Value from 'string to int'
 		istringstream is(tagValue);
@@ -141,7 +141,7 @@ namespace InternFunctions {
 		DOMNodeList *list = NULL;
 		DOMDocument *domDocParser = itsParser->getDocument();
 
-		XMLCh *source = XMLString::transcode("size"); 		// Tag wanted
+		XMLCh *source = XMLString::transcode("size"); 			// Tag wanted
 		list = domDocParser->getElementsByTagName(source);		// Returns list of '<tag>' found
 		int originalWidth = 0, originalHeight = 0;
 		for(int i = 0; i < list->getLength(); ++i){
@@ -156,7 +156,7 @@ namespace InternFunctions {
 					istringstream is(tagValueObj);
 					if(tagNameObj =="width"){
 						is >> originalWidth;
-						cout << "width: " << originalWidth <<  endl;
+						cout << "width: " << originalWidth <<  endl; // LDEBUG() IT
 					} else if(tagNameObj =="height"){
 						is >> originalHeight;
 						cout << "height: " <<  originalHeight <<  endl;
@@ -164,6 +164,9 @@ namespace InternFunctions {
 				}
 			}
 		}
+
+		// Ensures rescaled <bndbox> size
+		//	- Otherwise, no change to original size
 		if(originalWidth!=resWidth && originalHeight!=resHeight){
 			double result = (1.0 - (double(originalWidth-resWidth)/originalWidth));
 			rescalePercentWidth = result;
