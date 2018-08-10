@@ -184,7 +184,7 @@ namespace InternFunctions {
 			rescalePercentWidth = result;
 			double result2 = (1.0 - (double(originalHeight-resHeight)/originalHeight));
 			rescalePercentHeight = result2;
-			LDEBUG("Rescale percentage: %f% x %f%", rescalePercentHeight, rescalePercentWidth);
+			LDEBUG("Rescale percentage: %f%% x %f%%", rescalePercentHeight, rescalePercentWidth);
 		} else{
 			rescalePercentWidth = 1.0;
 			rescalePercentHeight = 1.0;
@@ -241,7 +241,7 @@ namespace InternFunctions {
 						LDEBUG("Updated - W: %i H: %i ", int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymin * rescalePercentHeight));
 						break;
 					} else if(tagNameObj =="name"){
-						LDEBUG("Tag Value - Class Name: %s", tagValueObj);
+						LDEBUG("Tag Value - Class Name: %s", tagValueObj.c_str());
 						tempCreature.setName(tagValueObj);
 
 					} else if(tagNameObj == "confidence") {

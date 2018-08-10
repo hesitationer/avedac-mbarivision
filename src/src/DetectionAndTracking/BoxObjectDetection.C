@@ -111,7 +111,7 @@ std::list<BitObject> BoxObjectDetection::run(
 			}
 
 			if (found && smallest->isValid()) {
-				LDEBUG("### Name: %s | Probability: %f ###", smallest->getClassName(), smallest->getClassProbability());
+				LDEBUG("### Name: %s | Probability: %f ###", smallest->getClassName().c_str(), smallest->getClassProbability());
 				bosFiltered.push_back(*smallest);
 			}
 		}
