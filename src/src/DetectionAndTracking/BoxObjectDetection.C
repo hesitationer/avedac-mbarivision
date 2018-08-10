@@ -1,9 +1,12 @@
-/*
- * BoxObjectDetection.C
- *
- *  Created on: Jul 2, 2018
- *      Author: mochoa
- */
+//============================================================================
+// Name        : BoxObjectDetection.C
+// Author      : Mayra Ochoa & Raymond Esteybar
+// Version     :
+// Copyright   :
+// Description : Alternate version of ObjectDetection.H but BoxObjectDetection.H
+//				 incorporates the Rectangles instead of Winner objects
+//				 from .xml.
+//============================================================================
 
 #include "Component/OptionManager.H"
 #include "Component/ParamClient.H"
@@ -14,14 +17,10 @@
 #include "Image/PixelsTypes.H"
 #include "Util/StringConversions.H"
 
-#include <iostream>
+#include "BoxObjectDetection.H"
 
 class ModelParamBase;
 class DetectionParameters;
-
-#include "BoxObjectDetection.H"
-
-
 
 BoxObjectDetection::BoxObjectDetection(OptionManager& mgr,
       const std::string& descrName,
@@ -41,7 +40,7 @@ void BoxObjectDetection::paramChanged(ModelParamBase* const param,
                                  ParamClient::ChangeStatus* status){
 
 }
-// ======> TODO: Pass in list of custom class/struct that encapsulates rect, class name/probability here
+
 std::list<BitObject> BoxObjectDetection::run(
     nub::soft_ref<MbariResultViewer> rv,
     const std::list<Creature> &creatureList,
@@ -112,8 +111,7 @@ std::list<BitObject> BoxObjectDetection::run(
 			}
 
 			if (found && smallest->isValid()) {
-				std::cout << "### Name: " << smallest->getClassName()
-						<< " | Probability: " << smallest->getClassProbability() << " ###\n";
+				LDEBUG("### Name: %s | Probability: %f ###", smallest->getClassName(), smallest->getClassProbability());
 				bosFiltered.push_back(*smallest);
 			}
 		}

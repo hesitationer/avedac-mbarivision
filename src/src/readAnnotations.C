@@ -2,7 +2,7 @@
 // Name        : readAnnotations.C
 // Author      : Mayra Ochoa & Raymond Esteybar
 // Version     :
-// Copyright   : Your copyright notice
+// Copyright   :
 // Description : Parses through .xml to gather the values in <object>
 //		 		 for the <name>, <confidence> & <bndbox> values. Runs program
 //				 to detect animals in each frame.
@@ -144,7 +144,6 @@ int main(const int argc, const char** argv) {
 	manager.addSubComponent(ofs);
 	manager.addSubComponent(ifs);
 
-
 	// Get the directory of this executable
     std::string exe(argv[0]);
     size_t found = exe.find_last_of("/\\");
@@ -165,10 +164,10 @@ int main(const int argc, const char** argv) {
 
 	if (manager.parseCommandLine(argc, argv, "", 0, -1) == NULL)
 		LFATAL("Invalid command line argument. Aborting program now !");
-    LINFO("1");
+
 	// fix empty frame range bug and set the range to be the same as the input frame range
     FrameRange fr = ifs->getModelParamVal< FrameRange > ("InputFrameRange");
-    LINFO("2");
+
     if (fr.getLast() == MAX_INT32) {
         FrameRange range(0, 0, 0);
         ifs->setModelParamVal(string("InputFrameRange"), range);
@@ -179,7 +178,7 @@ int main(const int argc, const char** argv) {
         ofs->setModelParamVal(string("OutputFrameRange"), fr);
 	    // get image dimensions and set a few parameters that depend on it
     parms->reset(&dp);
-    LINFO("3");
+
     // is this a a gray scale sequence ? if so disable computing the color channels
     // to save computation time. This assumes the color channel has no weight !
     if (dp.itsColorSpaceType == SAColorGray) {
@@ -282,7 +281,7 @@ int main(const int argc, const char** argv) {
 			inputScaled = rescale(inputRaw, scaledDims);
 
 			frameNum = ifs->frame();
-			cout << "#### " << frameNum << " ####\n";
+			LDEBUG("#### FrameNum: %i ####\n", frameNum);
 
 			// get updated input image erasing previous bit objects
 			const list<BitObject> bitObjectFrameList = eventSet.getBitObjectsForFrame(frameNum - 1);
@@ -332,7 +331,7 @@ int main(const int argc, const char** argv) {
 		int i=rescaleValues.find("x");
 		int width=getRescaleValues(rescaleValues.substr(0,i));
 		int height=getRescaleValues(rescaleValues.substr(i+1,rescaleValues.size()-1));
-		cout << "W: " << width << " H: " << height << endl;
+		LDEBUG("W: %i H: %i ", width, height);
 
 		// Read File - get list<Rectangle>
 		string description(manager.getOptionValString(&OPT_InputFrameSource).c_str());
@@ -348,7 +347,7 @@ int main(const int argc, const char** argv) {
 			getObjectValues(itsParser, creatureList);
 
 		} else {
-		  cout << "Error when attempting to parse the XML file : " << description.c_str() << endl;
+		  LDEBUG("Error when attempting to parse the XML file : %s", description.c_str());
 		  return -1;
 		}
 
@@ -427,7 +426,7 @@ int main(const int argc, const char** argv) {
 	}
 	manager.stop();
 
-	std::cout << "Reached END" << std::endl;
+	LDEBUG("Reached END");
 
 	delete itsParser;
 

@@ -1,9 +1,12 @@
-/*
- * BoxObjectDetection.h
- *
- *  Created on: Jul 2, 2018
- *      Author: mochoa
- */
+//============================================================================
+// Name        : BoxObjectDetection.H
+// Author      : Mayra Ochoa & Raymond Esteybar
+// Version     :
+// Copyright   :
+// Description : Alternate version of ObjectDetection.H but BoxObjectDetection.H
+//				 incorporates the Rectangles instead of Winner objects
+//				 from .xml.
+//============================================================================
 
 /*!@file BOXOBJECTDETECTION.H used for object detection*/
 #ifndef SRC_DETECTIONANDTRACKING_BOXOBJECTDETECTION_H_

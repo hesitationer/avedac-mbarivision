@@ -1,3 +1,14 @@
+//============================================================================
+// Name        : InternFunctions.H
+// Author      : Mayra Ochoa & Raymond Esteybar
+// Version     :
+// Copyright   :
+// Description : Contains methods used in readAnnotations.C in terms of
+//		 		 parsing the .xml to receive <object> values & rescales the
+//				 <bndbox> values in each object due to the --rescale-input=WxH
+//			     argument.
+//============================================================================
+
 namespace InternFunctions {
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -7,7 +18,6 @@ namespace InternFunctions {
 	#include <string>
 	#include <fstream>
 	#include <sstream>
-	#include <iostream>
 	#include <boost/algorithm/string.hpp>
 
 	#include <xercesc/util/PlatformUtils.hpp>
@@ -90,7 +100,7 @@ namespace InternFunctions {
 	// global variables
 	// Purpose: Store percent rescaled
 	double rescalePercentWidth;
-	double rescalePercentHeigth;
+	double rescalePercentHeight;
 
 	// Main Functions
 	// 	- Stores value in temporary 'BoundingBox' Object
@@ -110,6 +120,7 @@ namespace InternFunctions {
 			temp.ymax = dim;
 		}
 	}
+
 	int getRescaleValues(const string& value){
 		istringstream is(value);
 		int val = 0;
@@ -117,6 +128,7 @@ namespace InternFunctions {
 
 		return val;
 	}
+
 	// 	- Get .xml in directory
 	string getmyXML(const string& descrip, const uint& fnum){
 		vector<string>image_path;
@@ -156,10 +168,10 @@ namespace InternFunctions {
 					istringstream is(tagValueObj);
 					if(tagNameObj =="width"){
 						is >> originalWidth;
-						cout << "width: " << originalWidth <<  endl; // LDEBUG() IT
+						LDEBUG("Original Width: %i", originalWidth);
 					} else if(tagNameObj =="height"){
 						is >> originalHeight;
-						cout << "height: " <<  originalHeight <<  endl;
+						LDEBUG("Original Height: %i", originalHeight);
 					}
 				}
 			}
@@ -171,15 +183,13 @@ namespace InternFunctions {
 			double result = (1.0 - (double(originalWidth-resWidth)/originalWidth));
 			rescalePercentWidth = result;
 			double result2 = (1.0 - (double(originalHeight-resHeight)/originalHeight));
-			rescalePercentHeigth = result2;
-			cout << "Rescale percentage: " << rescalePercentWidth << "% x " << rescalePercentHeigth << "%"<< endl;
+			rescalePercentHeight = result2;
+			LDEBUG("Rescale percentage: %f% x %f%", rescalePercentHeight, rescalePercentWidth);
 		} else{
 			rescalePercentWidth = 1.0;
-			rescalePercentHeigth = 1.0;
+			rescalePercentHeight = 1.0;
 		}
 	}
-
-
 
 	// 	- Reads .xml for values in <object> ... </object>
 	void getObjectValues(XercesDOMParser *itsParser, list<Creature>& creatureList) {
@@ -224,14 +234,14 @@ namespace InternFunctions {
 								storeValue(tempDim, tagNameBB, tagValueBB);							// Store the dim values 1 by 1
 							}
 						}
-						if(int(tempDim.xmin * rescalePercentWidth) != 0 && int(tempDim.ymin * rescalePercentHeigth) != 0)
-							if(int(tempDim.xmin * rescalePercentWidth) > int(tempDim.ymin * rescalePercentHeigth))
-								tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeigth), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeigth), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
+						if(int(tempDim.xmin * rescalePercentWidth) != 0 && int(tempDim.ymin * rescalePercentHeight) != 0)
+							if(int(tempDim.xmin * rescalePercentWidth) > int(tempDim.ymin * rescalePercentHeight))
+								tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeight), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeight), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
 
-						cout << "updated " << int(tempDim.xmin * rescalePercentWidth) << " " << int(tempDim.ymin * rescalePercentHeigth)<< endl;
+						LDEBUG("Updated - W: %i H: %i ", int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymin * rescalePercentHeight));
 						break;
 					} else if(tagNameObj =="name"){
-						cout << "Name: " <<  tagValueObj <<  endl;
+						LDEBUG("Tag Value - Class Name: %s", tagValueObj);
 						tempCreature.setName(tagValueObj);
 
 					} else if(tagNameObj == "confidence") {
@@ -251,7 +261,7 @@ namespace InternFunctions {
 				creatureList.push_back(tempCreature);
 		}
 
-		cout << "#### Creature List Size: " << creatureList.size() << " #####\n";
+		LDEBUG("#### Creature List Size: %i #####", creatureList.size());
 	}
 }
 
