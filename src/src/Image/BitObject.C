@@ -338,6 +338,10 @@ void BitObject::freeMem()
 // ######################################################################
 void BitObject::writeToStream(ostream& os) const
 {
+  // class name and probability
+  os << itsClassName;
+  os << itsClassProbability;
+
   // bounding box
   if (itsBoundingBox.isValid())
     {
@@ -390,6 +394,10 @@ void BitObject::writeToStream(ostream& os) const
 // ######################################################################
 void BitObject::readFromStream(istream& is)
 {
+  // class name and probability
+  is >> itsClassName;
+  is >> itsClassProbability;
+
   // bounding box
   int t, l, b, r;
   is >> t; is >> l; is >> b; is >> r;
@@ -397,7 +405,6 @@ void BitObject::readFromStream(istream& is)
     itsBoundingBox = Rectangle::tlbrI(t, l, b, r);
   else
     itsBoundingBox = Rectangle();
-
 
   // image dims
   int w, h;
