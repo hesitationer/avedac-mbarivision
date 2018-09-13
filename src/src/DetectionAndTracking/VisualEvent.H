@@ -181,9 +181,6 @@ public:
   //!return a token based on a frame number
   inline Token getToken(const uint frame_num) const;
 
-  //! sets class and probability at a particular frame number
-  inline void setClass(const uint frame_num, const std::string &name, const float probability);
-
   //!return reset bit object contained in frame number
   inline void resetBitObject(const uint frame_num, BitObject &obj);
 
@@ -353,18 +350,6 @@ inline Token VisualEvent::getToken(uint frame_num) const
       return tk;
   }
   return empty;
-}
-
-// ######################################################################
-inline void VisualEvent::setClass(const uint frame_num, const std::string &name, const float probability) {
-  ASSERT(frameInRange(frame_num));
-  for (uint i = 0; i < tokens.size(); i++) {
-    if (tokens[i].frame_nr == frame_num) {
-      tokens[i].class_name = name;
-      tokens[i].class_probability = probability;
-      break;
-    }
-  }
 }
 
 // ######################################################################

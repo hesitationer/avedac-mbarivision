@@ -63,8 +63,7 @@ VisualEvent::VisualEvent(Token tk, const DetectionParameters &parms, Image< PixR
     houghConstant(DEFAULT_FORGET_CONSTANT),
     itsDetectionParms(parms)
 {
-  LDEBUG("tk.location = (%g, %g); area: %i class: %s prob: %.2f",tk.location.x(),tk.location.y(),
-         tk.bitObject.getArea(), tk.class_name.c_str(), tk.class_probability);
+  LDEBUG("tk.location = (%g, %g); area: %i",tk.location.x(),tk.location.y(), tk.bitObject.getArea());
   tokens.push_back(tk);
   ++counter;
   myNum = counter;
@@ -324,6 +323,8 @@ void VisualEvent::assign(const Token& tk, const Vector2D& foe, uint validendfram
   ASSERT(isTokenOk(tk));
 
   double smv = tokens.back().bitObject.getSMV();
+  float class_prob = tokens.back().bitObject.getClassProbability();
+  string class_name = tokens.back().bitObject.getClassName();
 
   tokens.push_back(tk);
 
@@ -331,6 +332,9 @@ void VisualEvent::assign(const Token& tk, const Vector2D& foe, uint validendfram
   // this is sort of a strange way to propagate values
   // need a bitObject copy operator?
   tokens.back().bitObject.setSMV(smv);
+
+  // initialize class/prob to last token
+  tokens.back().bitObject.setClassProbability(class_name, class_prob);
 
   tokens.back().prediction = Vector2D(xTracker.getEstimate(),
                                       yTracker.getEstimate());

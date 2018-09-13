@@ -210,6 +210,7 @@ namespace InternFunctions {
 			Creature tempCreature;
 			Rectangle invalidRect;
 			tempCreature.setDimensions(invalidRect);
+			Rectangle bbox;
 
 			// Iterate through ea. <tag> in <object> ... </object> to retrieve values
 			for(int k = 0; k < length->getLength(); ++k) {
@@ -236,7 +237,9 @@ namespace InternFunctions {
 						}
 						if(int(tempDim.xmin * rescalePercentWidth) != 0 && int(tempDim.ymin * rescalePercentHeight) != 0)
 							if(int(tempDim.xmin * rescalePercentWidth) > int(tempDim.ymin * rescalePercentHeight))
-								tempCreature.setDimensions(Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeight), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeight), int(tempDim.xmax * rescalePercentWidth)));	// Store creature found b/c dim are the last values to collect
+								bbox = Rectangle::tlbrO(int(tempDim.ymin * rescalePercentHeight), int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymax * rescalePercentHeight), int(tempDim.xmax * rescalePercentWidth));
+								LDEBUG("=======>Bounding box %s rescalePercentWidth %f rescalePercentHeight %f", toStr(bbox).data(), rescalePercentWidth, rescalePercentHeight);
+								tempCreature.setDimensions(bbox);
 
 						LDEBUG("Updated - W: %i H: %i ", int(tempDim.xmin * rescalePercentWidth), int(tempDim.ymin * rescalePercentHeight));
 						break;

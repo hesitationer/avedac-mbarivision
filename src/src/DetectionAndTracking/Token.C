@@ -26,7 +26,7 @@
  * David and Lucile Packard Foundation
  */ 
 
-/*!@file MbariVisualEvent.C classes useful for event tracking */
+/*!@file Token.C classes useful for event tracking */
 
 #include "Image/OpenCVUtil.H"
 #include "DetectionAndTracking/Token.H"
@@ -44,8 +44,6 @@ Token::Token()
   : bitObject(),
     location(),
     prediction(),
-    class_name(DEFAULT_CLASS_NAME),
-    class_probability(-1.0F),
     line(),
     angle(0.0F),
     foe(0.0F,0.0F),
@@ -57,22 +55,6 @@ Token::Token (BitObject bo, uint frame)
   : bitObject(bo),
     location(bo.getCentroidXY()),
     prediction(),
-    class_name(DEFAULT_CLASS_NAME),
-    class_probability(-1.0F),
-    line(),
-    angle(0.0F),
-    foe(0.0F,0.0F),
-    frame_nr(frame),
-    written(false)
-  {
-  }
-  // ######################################################################
-  Token::Token (BitObject bo, uint frame, string name, float probability)
-  : bitObject(bo),
-    location(bo.getCentroidXY()),
-    prediction(),
-    class_name(name),
-    class_probability(probability),
     line(),
     angle(0.0F),
     foe(0.0F,0.0F),
@@ -89,8 +71,6 @@ Token::Token (BitObject bo, uint frame)
       this->location = tk.location;
       this->prediction = tk.prediction;
       this->written = tk.written;
-      this->class_probability = tk.class_probability;
-      this->class_name = tk.class_name;
       this->featureJETred = tk.featureJETred;
       this->featureJETgreen = tk.featureJETgreen;
       this->featureJETblue = tk.featureJETblue;
@@ -115,8 +95,6 @@ Token::Token (BitObject bo, uint frame)
     featureJETblue(featureJETblue),
     featureHOG3(featureHOG3),
     featureHOG8(featureHOG8),
-    class_name(DEFAULT_CLASS_NAME),
-    class_probability(-1.0F),
     frame_nr(frame),
     mbarimetadata(m),
     written(false)
@@ -136,8 +114,6 @@ void Token::writeToStream(ostream& os)
     mbarimetadata.writeToStream(os);
     location.writeToStream(os);
     prediction.writeToStream(os);
-    os << class_name << ' ';
-    os << class_probability << ' ';
     line.writeToStream(os);
     os << angle << '\n';
     bitObject.writeToStream(os);
@@ -155,8 +131,6 @@ void Token::readFromStream(istream& is)
   mbarimetadata.readFromStream(is);
   location.readFromStream(is);
   prediction.readFromStream(is);
-  is >> class_name;
-  is >> class_probability;
   line.readFromStream(is);
   is >> angle;
   bitObject = BitObject(is);

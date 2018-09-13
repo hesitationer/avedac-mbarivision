@@ -148,6 +148,8 @@ list<BitObject> extractBitObjects(const Image<PixRGB <byte> >& image,
     for (int i = 0; i < iterations; i++) {
 
         list<BitObject> gbos;
+        LINFO("region segment graph cut: %s",toStr(regionSegment).data());
+        LINFO("region search graph cut: %s",toStr(regionSearch).data());
 
         Image< PixRGB<byte> > graphBitImg = segment.runGraph(image, regionSegment, scale);
         scale = scale * 0.50;
@@ -195,13 +197,13 @@ list<BitObject> extractBitObjects(const Image<PixRGB <byte> >& image,
                     Rectangle oBB = obj.getBoundingBox();
 
                     // if the object is in range in size, intensity, keep it
-                    if (obj.getArea() >= minSize && obj.getArea() <= maxSize && avgI > minIntensity) {
+                    if (obj.isValid() && obj.getArea() >= minSize && obj.getArea() <= maxSize && avgI > minIntensity) {
                      LDEBUG("found object size: %d avg intensity: %f", obj.getArea(), avgI);
                      bos.push_back(obj);
                      numFound++;
                     }
                     else
-                     LDEBUG("found object but out of range in size %d minsize: %d maxsize: %d or "
+                     LDEBUG("found object invalid, or out of range in size %d minsize: %d maxsize: %d or "
                            "intensity %f min intensity %f",
                         obj.getArea(), minSize, maxSize, avgI, minIntensity);
 
@@ -213,7 +215,7 @@ list<BitObject> extractBitObjects(const Image<PixRGB <byte> >& image,
             break;
     }
 
-    LINFO("Found %d total bit objects", bos.size());
+    LINFO("Found %lu total bit objects", bos.size());
     return bos;
 }
 

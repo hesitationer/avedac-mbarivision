@@ -26,7 +26,7 @@
  * David and Lucile Packard Foundation
  */
 
-/*!@file MbariFunctions.H miscellaneous functions used by mbarivision
+/*!@file FisherLDA.H
  */
 #ifndef FISHERLDA_DEFINED
 #define FISHERLDA_DEFINED

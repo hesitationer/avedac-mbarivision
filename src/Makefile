@@ -9,7 +9,7 @@ BINDIR	    := target/build/bin/
 LIBDIR      := target/build/lib/
 SCHEMADIR   := schema/
 CXX         := g++
-CXXFLAGS    := -L/usr/lib -I/usr/include -g
+CXXFLAGS    := -g -O2 
 DEFS        := -DINST_BYTE=1 -DINST_FLOAT=1 -DHAVE_OPENCV2=1 -DHAVE_OPENCV=1 -DCV_MAJOR_VERSION=2.4.9
 CPPFLAGS    := -I/usr/include/libxml2 -I$(OPENCVROOT)/include/opencv -I$(OPENCVROOT)/include/opencv2 -I$(SALIENCYROOT)/src -I$(XERCESCROOT)/src -I$(SRCDIR) -include $(SALIENCYROOT)/config.h
 LDFLAGS     := -lxml2 -L/usr/local/lib -L$(OPENCVROOT) -L$(SALIENCYROOT)/build/obj -L$(XERCESCROOT)/lib -lxerces-c -lopencv_core -lopencv_imgproc -lopencv_video -lopencv_objdetect -lopencv_legacy -lGLU
@@ -20,17 +20,13 @@ COMPILE3    :=
 CDEPS	    := $(BINDIR)cdeps
 VLIBS       := /usr/lib
 
-# grab virtual paths from saliency build to make knows where to look for libraries
+#e grab virtual paths from saliency build to make knows where to look for libraries
 VLIBS +=`grep -m 1 VPATH_LIBDIRS $(SALIENCYROOT)/Makefile | cut -f2 -d =`
 vpath % $(VLIBS)
 
-# Add New File Here for Referencing in 'Target'
-all: $(CDEPS) $(BINDIR)readAnnotations
+all: $(CDEPS) $(BINDIR)mbarivision
 classifier: $(CDEPS) $(BINDIR)trainbayes $(BINDIR)trainbayesLDA $(BINDIR)test-FisherLDA
-helloworld: $(CDEPS) $(BINDIR)helloworld
-test-GaborPyc: $(CDEPS) $(BINDIR)test-GaborPyc
-readAnnotations: $(CDEPS) $(BINDIR)readAnnotations 
-readXMLData: $(CDEPS) $(BINDIR)readXMLData
+readAnnotations: $(CDEPS) $(BINDIR)readAnnotations
 
 # for the compilation of the Version file every time to date/time stamp the build
 $(OBJDIR)Utils/Version.o: force $(SRCDIR)Utils/Version.C
@@ -39,10 +35,10 @@ force: ;
 ##### Implicit rules
 $(BINDIR)%:
 	 $(COMPILE1) "Linking executable program" $@	 
-	 $(COMPILE2) $(CXX) \
+	 $(COMPILE2) $(CXX)  \
 	  -o $@ -O \
-  	  $(addprefix $(PWD)/,$(filter-out %, $+)) \
-	  $(filter %, $+)  \
+  	  $(addprefix $(PWD)/,$(filter-out /%, $+)) \
+	  $(filter /%, $+)  \
 	  $(LDFLAGS)  $(LIBS)
 	  @mkdir -p $(BINDIR)/$(SCHEMADIR)
 	  $(COMPILE1) "Installing xml schema files in $(SCHEMADIR) to $(BINDIR) "
@@ -86,10 +82,7 @@ $(DEPFILE):$(CDEPS)
            --srcdir "$(SRCDIR)" \
            --includedir "$(SRCDIR)" \
            --exeformat "$(SRCDIR)Mbarivision.C : $(BINDIR)mbarivision" \
-           --exeformat "$(SRCDIR)helloworld.C : $(BINDIR)helloworld" \
-           --exeformat "$(SRCDIR)test-GaborPyc.C : $(BINDIR)test-GaborPyc" \
            --exeformat "$(SRCDIR)readAnnotations.C : $(BINDIR)readAnnotations" \
-           --exeformat "$(SRCDIR)readXMLData.C : $(BINDIR)readXMLData" \
            --includedir "$(SALIENCYROOT)/src" \
            --includedir "$(XERCESCROOT)/src" \
            --options-file depoptions-all \
@@ -134,7 +127,7 @@ installReadAnnotations:
 	$(COMPILE1) "Installing readAnnotations in $(BINDIR) to $(PREFIX)/bin "
 	@mkdir -p $(PREFIX)/bin/$(SCHEMADIR)
 	@cp -f $(BINDIR)readAnnotations $(PREFIX)/bin
-	$(COMPILE1) "Installing mbarivision xml schema files in $(SCHEMADIR) to $(PREFIX)/bin "
+	$(COMPILE1) "Installing readAnnotations xml schema files in $(SCHEMADIR) to $(PREFIX)/bin "
 	@cp -Rf $(SCHEMADIR) $(PREFIX)/bin
 	$(COMPILE1) "Done !"
 

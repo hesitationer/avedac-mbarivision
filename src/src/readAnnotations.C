@@ -368,6 +368,7 @@ int main(const int argc, const char** argv) {
 		objs = objdet->run(rv, creatureList, segmentIn);
 
 		// create new events with this
+		LINFO("=====>initiate Events");
 		eventSet.initiateEvents(objs, features, imgData);
 
 		// Image< PixRGB<byte > >

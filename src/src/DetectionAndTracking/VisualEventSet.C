@@ -356,7 +356,6 @@ bool VisualEventSet::runHoughTracker(nub::soft_ref<MbariResultViewer>&rv,
 
   // get the region used for searching for a match based on the dimension of the last token
   // centered on the Kalman predicted location
-  //ken evtTokenMax = currEvent->getMaxSizeToken();
   Rectangle rect = evtToken.bitObject.getBoundingBox();
   Point2D<int> predHough((float)pred.i * scaleW, (float)pred.j * scaleH);
   Dims searchDimsHough = Dims((float)rect.width() * scaleW,(float)rect.height() * scaleH);
@@ -395,13 +394,13 @@ bool VisualEventSet::runHoughTracker(nub::soft_ref<MbariResultViewer>&rv,
   if (obj.isValid())
     obj.setMaxMinAvgIntensity(luminance(imgData.img));
 
-  float minArea, maxArea;
+  int minArea, maxArea;
 
   if (currEvent->getNumberOfFrames() > 1 || dp.itsUseFoaMaskRegion) {
     // search for up to 4 and shrink down to 0.25 but only if initialized beyond the first frame since
     // the FOA initialized object is generally large
-    minArea = 0.25F * (float) evtToken.bitObject.getArea();
-    maxArea = 4.0F * (float) evtToken.bitObject.getArea();
+    minArea = int(0.25F * (float) evtToken.bitObject.getArea());
+    maxArea = int(4.0F * (float) evtToken.bitObject.getArea());
   }
   else {
     minArea = dp.itsMinEventArea;
@@ -948,47 +947,40 @@ bool VisualEventSet::resetIntersect(Image< PixRGB<byte> >& img, BitObject& obj, 
 
   for (cEv = itsEvents.begin(); cEv != itsEvents.end(); ++cEv) {
     if ((*cEv)->doesIntersect(obj, frameNum)) {
-      switch (dp.itsTrackingMode) {
-            case(TMHough):
-            case(TMNearestNeighborHough):
-            case(TMKalmanHough):
-              areadiff = 0.F;
+	  areadiff = 0.F;
 
-              if ((*cEv)->getNumberOfFrames() > 1 && (*cEv)->getTrackerType() == VisualEvent::HOUGH ) {
+	  if ((*cEv)->getNumberOfFrames() > 1) {
+		evtToken = (*cEv)->getToken((*cEv)->getEndFrame());
+		area = evtToken.bitObject.getArea();
+		areadiff = (area - evtToken.bitObject.intersect(obj))/ area;
 
-                evtToken = (*cEv)->getToken((*cEv)->getEndFrame());
-                area = evtToken.bitObject.getArea();
-                areadiff = (area - evtToken.bitObject.intersect(obj))/ area;
+		if (areadiff > 0.50 || obj.getClassProbability() > 0.0f) {
+			mask1 = obj.getObjectMask(byte(1));
+			mask2 = evtToken.bitObject.getObjectMask(byte(1));
+			mask = mask1 + mask2;
 
-                // if intersecting area at least 50%
-                if (areadiff > .5F){
-                  mask1 = obj.getObjectMask(byte(1));
-                  mask2 = evtToken.bitObject.getObjectMask(byte(1));
-                  mask = mask1 + mask2;
+			// reset the object and propagate the saliency map voltage and class name/probability
+			obj1.reset(mask);
+			obj1.setSMV(obj.getSMV());
+			obj1.setClassProbability(obj.getClassName(), obj.getClassProbability());
 
-                  // reset the object and propagate the saliency map voltage
-                  obj1.reset(mask);
-                  obj1.setSMV(obj.getSMV());
+			if ((*cEv)->getTrackerType() == VisualEvent::HOUGH) {
+				// create second object rescaled to reduce memory used by the Hough tracker
+				mask = rescale(mask, Dims(960,540));
+				obj2.reset(mask);
+				obj2.setSMV(obj.getSMV());
+				obj2.setClassProbability(obj.getClassName(), obj.getClassProbability());
 
-                  // create second object rescaled to reduce memory used by the Hough tracker
-                  mask = rescale(mask, Dims(960,540));
-                  obj2.reset(mask);
-
-                  if (obj2.isValid()){
-                      (*cEv)->resetHoughTracker(imgRescaled, obj2);
-                      (*cEv)->resetBitObject(frameNum, obj1);
-                      LINFO("Resetting Hough Tracker frame: %d event: %d with bit object in bounding box %s",
-                       frameNum,(*cEv)->getEventNum(),toStr(obj.getBoundingBox()).data());
-                  }
-                }
-              }
-            break;
-            case(TMKalmanFilter):
-            case(TMNearestNeighbor):
-            case(TMNone):
-            break;
-          }
-    return true;
+				if (obj2.isValid()){
+				  (*cEv)->resetHoughTracker(imgRescaled, obj2);
+				  (*cEv)->resetBitObject(frameNum, obj1);
+				  LINFO("Resetting Hough Tracker frame: %d event: %d with bit object in bounding box %s",
+				   frameNum,(*cEv)->getEventNum(),toStr(obj.getBoundingBox()).data());
+				}
+			}
+		}
+	  }
+	  return true;
     }
   }
   return false;
@@ -1176,14 +1168,13 @@ void VisualEventSet::drawTokens(Image< PixRGB<byte> >& img,
           if (showEventLabels)
             {
               // write the text and create the overlay
-
               string numText = toStr((*currEvent)->getEventNum());
               ostringstream ss;
               ss.precision(2);
               ss << numText;
-              if (tk.class_probability >= 0.F && tk.class_probability <= 1.0F) {
-                ss << "," << tk.class_name;
-                ss << "," << tk.class_probability;
+              if (tk.bitObject.getClassProbability() >= 0.F && tk.bitObject.getClassProbability() <= 1.0F) {
+                ss << "," << tk.bitObject.getClassName();
+                ss << "," << tk.bitObject.getClassProbability();
               }
               //ss << numText << "," << (*currEvent)->getForgetConstant();
 

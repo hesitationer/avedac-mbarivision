@@ -127,7 +127,8 @@ void BayesClassifier::run(int frameNum, VisualEvent *event, FeatureCollection::D
 	if (cls < bn.getNumClasses() && prob_class >= 0.0F && prob <= 1.0) {
 		string class_name = bn.getClassName(cls);
 		LINFO("========>Classified event %d as class %s prob %.2f frame %d<========", event->getEventNum(), class_name.c_str(), prob_class, frameNum);
-		event->setClass(frameNum, class_name, prob_class);
+		Token tk = event->getToken(frameNum);
+		tk.bitObject.setClassProbability(class_name, prob_class);
 	}
 }
 

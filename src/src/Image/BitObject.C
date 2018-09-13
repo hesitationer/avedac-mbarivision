@@ -334,6 +334,8 @@ void BitObject::freeMem()
   itsMinIntensity = -1.0F;
   itsAvgIntensity = -1.0F;
   haveSecondMoments = false;
+  itsClassName = DEFAULT_CLASS_NAME;
+  itsClassProbability = DEFAULT_CLASS_PROBABILITY;
 }
 // ######################################################################
 void BitObject::writeToStream(ostream& os) const

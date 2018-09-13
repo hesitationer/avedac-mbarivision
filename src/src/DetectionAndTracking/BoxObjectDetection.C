@@ -62,23 +62,17 @@ std::list<BitObject> BoxObjectDetection::run(
 		float classProbability = (*iter).getProbability();
 
 		Point2D<int> unusedSeed;
+		LINFO("Region valid %s region dims %dx%d", toStr(region).data(), segmentInImg.getDims().w(), segmentInImg.getDims().h());
 		std::list<BitObject> sobjsKeep = extractBitObjects(segmentInImg, unusedSeed, region, region, minArea, maxArea);
 
-		int sobjsSize = sobjsKeep.size();
-
 		// add to the list
-		LINFO("sobjsKeep.size() = %lu", sobjsKeep.size());
-        bosUnfiltered.splice(bosUnfiltered.begin(), sobjsKeep);
-
-		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
-
 		// Set newly found BitObject values w/ Creature's values
-		int i = 0;
-		for(std::list<BitObject>::iterator it = bosUnfiltered.begin(); i < sobjsSize; ++it) {
+		for(std::list<BitObject>::iterator it = sobjsKeep.begin(); it != sobjsKeep.end(); ++it) {
 			it->setClassProbability(className, classProbability);
-			++i;
 		}
 
+        bosUnfiltered.splice(bosUnfiltered.begin(), sobjsKeep);
+		LINFO("Found %lu bitobject(s)", bosUnfiltered.size());
 		++iter;
     }
 
@@ -111,11 +105,12 @@ std::list<BitObject> BoxObjectDetection::run(
 			}
 
 			if (found && smallest->isValid()) {
-				LDEBUG("### Name: %s | Probability: %f ###", smallest->getClassName().c_str(), smallest->getClassProbability());
+				LDEBUG("##	# Name: %s | Probability: %f ###", smallest->getClassName().c_str(), smallest->getClassProbability());
 				bosFiltered.push_back(*smallest);
 			}
 		}
 	} else {
+		LINFO("3");
 		std::list<BitObject>::iterator biter;
 		for (biter = bosUnfiltered.begin(); biter != bosUnfiltered.end(); ++biter) {
 			if (biter->isValid())

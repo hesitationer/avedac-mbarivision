@@ -53,10 +53,6 @@ public:
   //!constructor with the location being the centroid of the BitObject
   Token (BitObject bo, uint frame);
 
-  //!constructor with the location being the centroid of the BitObject,
-  //the name is the class name, and probability is associated probability
-  Token (BitObject bo, uint frame, std::string name, float probability);
-
   //!constructor with the location being the centroid of the BitObject
   Token (BitObject bo, uint frame, const MbariMetaData& m,
          std::vector<double> &featureJETred,
@@ -75,12 +71,6 @@ public:
 
   //!the expected location for this token
   Vector2D prediction;
-
-  //! predicted class name for this token
-  std::string class_name;
-
-  //! probability of the predicted class for this token
-  float class_probability;
 
   //! feature for this token to use with a classifier
   //TODO: refactor into class
@@ -102,7 +92,7 @@ public:
   //!the frame number at which the token occurred
   uint frame_nr;
 
-  //!the Mbari meta data mfor this frame token
+  //!the Mbari meta data for this frame token
   MbariMetaData mbarimetadata;
 
   //! write flag; defaults to false in constructor; set to false
